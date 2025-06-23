@@ -17,7 +17,7 @@ all: $(prog)
 clean: ; $(RM) -r $(DEPDIR) $(OBJS) $(prog) $(prog).exe
 
 $(prog): $(OBJS)
-	$(CC) $(LDFLAGS) -o $@ $^
+	$(CC) $(LDFLAGS) -o $@ $^ -lm
 
 $(OBJS): %.o: %.c
 $(OBJS): %.o: %.c $(DEPDIR)/%.d | $(DEPDIR)
