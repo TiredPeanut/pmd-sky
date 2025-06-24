@@ -1,6 +1,7 @@
 #include "overlay_17_0238A71C.h"
+#include "main_0203C760.h"
 
-extern void sub_0203C760(void);
+void sub_0203C760(void);
 extern void MemFree(void *);
 extern void *OVERLAY17_UNKNOWN_POINTER__NA_238BE00;
 
