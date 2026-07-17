@@ -29,6 +29,22 @@ enum sentry_control_state {
     SENTRY_CTRL_INTERMEDIATE_TRANSITION = 3,
 };
 
+// 0xC4-byte animation state used by the ground engine (struct animation in pmdsky-debug)
+struct animation {
+    u8 data[0xC4];
+};
+
+// Arguments passed to PreprocessString (struct preprocess_args in pmdsky-debug)
+struct preprocess_args {
+    u32 flag_vals[4];   // 0x0: These are usually IDs with additional flags attached to them
+    u32 id_vals[5];     // 0x10
+    s32 number_vals[5]; // 0x24
+    u8 *strings[5];     // 0x38
+    // 0x4C: An optional argument that is used to insert the name of a Pokémon
+    // when they're talking through a window. It requires its respective flag to be on
+    u32 speaker_id;
+};
+
 struct sentry_duty {
     s8 field_0x0;  // ID of the footprint choices menu
     s8 field_0x1;  // ID of the dialogue box
@@ -47,10 +63,8 @@ struct sentry_duty {
     s32 field_0x14;
     s32 field_0x18;
     u8 field_0x1c[0x88];
-    s32 field_0xa4;  // First member of the preprocessor args starting at 0xA4
-    u8 field_0xa8[0x20];
-    s32 field_0xc8;  // A sound effect ID
-    u8 field_0xcc[0x38];
+    struct preprocess_args preprocessor_args;  // 0xA4: Args for the dialogue window strings
+    u8 field_0xf4[0x10];  // 0xF4: Portrait params
     // 0x104: Outermost game state, controls the "game completion" sequence.
     // Values from enum sentry_completion_state.
     s32 completion_state;
@@ -66,18 +80,39 @@ struct sentry_duty {
     s32 prev_dialogue_str_id;
     u32 field_0x118;  // Bitflags for which UI elements (windows, menus, portraits) are shown
     s32 field_0x11c;
-    u8 field_0x120[0x3434];
+    struct animation field_0x120;
+    struct animation field_0x1e4;
+    struct animation field_0x2a8;
+    struct animation field_0x36c[16];
+    struct animation field_0xfac[16];
+    struct animation field_0x1bec[16];
+    struct animation field_0x282c[2];
+    struct animation field_0x29b4;
+    struct animation field_0x2a78[4];
+    struct animation field_0x2d88[4];
+    struct animation field_0x3098[4];
+    struct animation field_0x33a8;
+    struct animation field_0x346c;
+    u8 field_0x3530[4];
+    s32 field_0x3534;
+    s32 field_0x3538;
+    s32 field_0x353c;
+    s32 field_0x3540;
+    u8 field_0x3544[0x10];
     s32 field_0x3554[4];  // Per-footprint-slot display state
-    u8 field_0x3564[0x30C];
+    s32 field_0x3564;
+    s32 field_0x3568;
+    s32 field_0x356c;
+    u8 field_0x3570[0x300];
     u8 field_0x3870;
     u8 field_0x3871;
     u8 field_0x3872[2];
     s32 field_0x3874;
     s32 field_0x3878;  // Index of a footprint slot
     s32 field_0x387c;  // Index of a footprint slot
-    u8 field_0x3880[4];
+    s32 field_0x3880;
     s32 field_0x3884;  // Number of rounds played
-    u8 field_0x3888[4];
+    s32 field_0x3888;  // Cycles 0-3, selects a dialogue string variant
     s32 field_0x388c;  // Total points
     s32 field_0x3890;
     s32 field_0x3894;  // Points delta for the current round

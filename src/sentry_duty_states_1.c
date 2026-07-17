@@ -34,7 +34,7 @@ void SentryState11(void)
 void SentryState12(void)
 {
     SENTRY_DUTY_PTR->field_0x389c = 0;
-    SENTRY_DUTY_PTR->field_0xc8 = 0x2311;
+    SENTRY_DUTY_PTR->preprocessor_args.number_vals[0] = 0x2311;
     SENTRY_DUTY_PTR->next_game_state = 0x13;
 }
 
@@ -74,7 +74,7 @@ void SentryState16(void)
 
 void SentryState17(void)
 {
-    SENTRY_DUTY_PTR->field_0xa4 = SENTRY_DUTY_PTR->field_0x38a2[SENTRY_DUTY_PTR->field_0x387c];
+    SENTRY_DUTY_PTR->preprocessor_args.flag_vals[0] = SENTRY_DUTY_PTR->field_0x38a2[SENTRY_DUTY_PTR->field_0x387c];
     if (SENTRY_DUTY_PTR->field_0x3871 == 0)
         SENTRY_DUTY_PTR->field_0x3554[SENTRY_DUTY_PTR->field_0x3878] = 3;
 
@@ -129,7 +129,7 @@ void SentryStateFinalizePoints(void)
 
 void SentryState1C(void)
 {
-    SENTRY_DUTY_PTR->field_0xc8 = 0x2310;
+    SENTRY_DUTY_PTR->preprocessor_args.number_vals[0] = 0x2310;
     SENTRY_DUTY_PTR->field_0x3554[SENTRY_DUTY_PTR->field_0x3878] = 2;
     SENTRY_DUTY_PTR->next_game_state = 0x1D;
 }
