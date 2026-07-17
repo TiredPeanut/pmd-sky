@@ -46,7 +46,11 @@ struct sentry_duty {
     s32 field_0x10;
     s32 field_0x14;
     s32 field_0x18;
-    u8 field_0x1c[0xE8];
+    u8 field_0x1c[0x88];
+    s32 field_0xa4;  // First member of the preprocessor args starting at 0xA4
+    u8 field_0xa8[0x20];
+    s32 field_0xc8;  // A sound effect ID
+    u8 field_0xcc[0x38];
     // 0x104: Outermost game state, controls the "game completion" sequence.
     // Values from enum sentry_completion_state.
     s32 completion_state;
@@ -62,9 +66,30 @@ struct sentry_duty {
     s32 prev_dialogue_str_id;
     u32 field_0x118;  // Bitflags for which UI elements (windows, menus, portraits) are shown
     s32 field_0x11c;
-    u8 field_0x120[0x3770];
+    u8 field_0x120[0x3434];
+    s32 field_0x3554[4];  // Per-footprint-slot display state
+    u8 field_0x3564[0x30C];
+    u8 field_0x3870;
+    u8 field_0x3871;
+    u8 field_0x3872[2];
+    s32 field_0x3874;
+    s32 field_0x3878;  // Index of a footprint slot
+    s32 field_0x387c;  // Index of a footprint slot
+    u8 field_0x3880[4];
+    s32 field_0x3884;  // Number of rounds played
+    u8 field_0x3888[4];
+    s32 field_0x388c;  // Total points
     s32 field_0x3890;
-    u8 field_0x3894[0x40];
+    s32 field_0x3894;  // Points delta for the current round
+    s32 field_0x3898;
+    u8 field_0x389c;
+    u8 field_0x389d[5];
+    s16 field_0x38a2[4];
+    u8 field_0x38aa[2];
+    s32 field_0x38ac;  // Dialogue progress counter
+    s32 field_0x38b0;
+    s32 field_0x38b4;  // Countdown timer
+    u8 field_0x38b8[0x1C];
 };
 
 #endif //PMDSKY_SENTRY_DUTY_H
