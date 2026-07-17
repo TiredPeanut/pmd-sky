@@ -1,13 +1,134 @@
 #include "sentry_duty_states_1.h"
+#include "overlay_14_0238ABA0.h"
 #include "sentry_duty_states.h"
 #include "util.h"
+#include "window.h"
 
 extern struct sentry_duty *SENTRY_DUTY_PTR;
+extern s32 ov14_0238D970[];
 
 extern void ClearWindow(s8 window_id);
 extern void PlaySeByIdVolumeWrapper(s32 se_id);
 extern void SentrySetExitingState(void);
 extern void sub_02017B7C(s32 arg0);
+extern void UpdateWindow(s8 window_id);
+extern void ov11_022F6EFC(struct animation *anim);
+extern void ov11_022F7058(struct animation *anim);
+extern s32 SetSentryDutyGamePoints(s32 points);
+extern void InitPortraitParams(portrait_params *params);
+extern void SetPortraitLayout(portrait_params *params, u32 layout_idx);
+extern void SetPortraitOffset(portrait_params *params, s32 *offset);
+extern void ShowPortraitInPortraitBox(s8 window_id, portrait_params *params);
+
+void SentryStateFinalizeRound(void)
+{
+    portrait_params params;
+    s32 offset[4];
+    u8 answered;
+    s32 offset_y;
+    s32 offset_x;
+    s16 i;
+    s8 portrait_id;
+
+    answered = SENTRY_DUTY_PTR->field_0x3870;
+    SENTRY_DUTY_PTR->field_0x3870 = 0;
+    SENTRY_DUTY_PTR->field_0x3884++;
+    SENTRY_DUTY_PTR->field_0x3874 = 0;
+    SENTRY_DUTY_PTR->field_0x3871 = 0;
+    ov14_0238AC04(0);
+    if (answered != 0)
+    {
+        ov11_022F7058(&SENTRY_DUTY_PTR->field_0x33a8);
+        ov11_022F6EFC(&SENTRY_DUTY_PTR->field_0x346c);
+        SENTRY_DUTY_PTR->field_0x3534 = 1;
+        SENTRY_DUTY_PTR->field_0x3538 = 0;
+        ov11_022F6EFC(&SENTRY_DUTY_PTR->field_0x29b4);
+    }
+
+    offset_x = ov14_0238D970[2];
+    offset_y = ov14_0238D970[3];
+    offset[0] = offset_x;
+    offset[1] = offset_y;
+    for (i = 0; i < 4; i++)
+    {
+        ov11_022F6EFC(&SENTRY_DUTY_PTR->field_0x2a78[i]);
+        ov11_022F6EFC(&SENTRY_DUTY_PTR->field_0x2d88[i]);
+        ov11_022F6EFC(&SENTRY_DUTY_PTR->field_0x3098[i]);
+        switch (i)
+        {
+            case 0:
+                portrait_id = SENTRY_DUTY_PTR->field_0x6;
+                break;
+            case 1:
+                portrait_id = SENTRY_DUTY_PTR->field_0x7;
+                break;
+            case 2:
+                portrait_id = SENTRY_DUTY_PTR->field_0x8;
+                break;
+            case 3:
+                portrait_id = SENTRY_DUTY_PTR->field_0x9;
+                break;
+        }
+
+        if (portrait_id != -2)
+        {
+            offset[2] = offset_x;
+            offset[3] = offset_y;
+            InitPortraitParams(&params);
+            SetPortraitLayout(&params, 3);
+            SetPortraitOffset(&params, &offset[2]);
+            ShowPortraitInPortraitBox(portrait_id, &params);
+        }
+    }
+
+    ClearWindow(SENTRY_DUTY_PTR->field_0x4);
+    UpdateWindow(SENTRY_DUTY_PTR->field_0x4);
+    ClearWindow(SENTRY_DUTY_PTR->field_0x5);
+    UpdateWindow(SENTRY_DUTY_PTR->field_0x5);
+    if (SENTRY_DUTY_PTR->field_0x3884 < 6)
+    {
+        SENTRY_DUTY_PTR->next_game_state = 0xF;
+    }
+    else
+    {
+        SENTRY_DUTY_PTR->field_0x38ac = 0;
+        if (SetSentryDutyGamePoints(SENTRY_DUTY_PTR->field_0x388c) != 0)
+        {
+            SENTRY_DUTY_PTR->field_0x3890 = 0;
+            if (SENTRY_DUTY_PTR->field_0x388c > 0xFA0)
+                SENTRY_DUTY_PTR->field_0x3890 = 1;
+
+            if (SENTRY_DUTY_PTR->field_0x388c > 0x1B58)
+                SENTRY_DUTY_PTR->field_0x3890 = 2;
+
+            if (SENTRY_DUTY_PTR->field_0x389c != 0)
+                SENTRY_DUTY_PTR->field_0x3890 = 3;
+        }
+        else
+        {
+            SENTRY_DUTY_PTR->field_0x3890 = 4;
+            if (SENTRY_DUTY_PTR->field_0x388c > 0xFA0)
+                SENTRY_DUTY_PTR->field_0x3890 = 5;
+
+            if (SENTRY_DUTY_PTR->field_0x388c > 0x1B58)
+                SENTRY_DUTY_PTR->field_0x3890 = 6;
+
+            if (SENTRY_DUTY_PTR->field_0x389c != 0)
+                SENTRY_DUTY_PTR->field_0x3890 = 7;
+        }
+
+        switch (SENTRY_DUTY_PTR->field_0x11c)
+        {
+            case 1:
+                SENTRY_DUTY_PTR->next_game_state = 0x1E;
+                break;
+            case 0:
+            default:
+                SENTRY_DUTY_PTR->next_game_state = 0x20;
+                break;
+        }
+    }
+}
 
 void SentryStateF(void)
 {

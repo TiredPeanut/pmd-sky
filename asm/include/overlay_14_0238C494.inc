@@ -20,14 +20,10 @@
 .public SetPortraitEmotion
 .public SetPortraitLayout
 .public SetPortraitOffset
-.public SetSentryDutyGamePoints
 .public ShowPortraitInPortraitBox
-.public UpdateWindow
 .public _s32_div_f
 .public ov11_022F5BBC
-.public ov11_022F6EFC
 .public ov11_022F6FE0
-.public ov11_022F7058
 .public ov14_0238AC04
 .public ov14_0238AC40
 .public ov14_0238AD04

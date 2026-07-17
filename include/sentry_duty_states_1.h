@@ -3,6 +3,7 @@
 
 #include "sentry_duty.h"
 
+void SentryStateFinalizeRound(void);
 void SentryStateF(void);
 void SentryState10(void);
 void SentryState11(void);
