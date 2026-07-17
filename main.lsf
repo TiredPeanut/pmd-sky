@@ -452,6 +452,8 @@ Overlay OVY_14
 {
 	After OVY_11
 	Object asm/overlay_14.o
+	Object src/sentry_duty_states.o
+	Object asm/overlay_14_0238C494.o
 }
 Overlay OVY_15
 {
