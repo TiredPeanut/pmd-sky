@@ -29,7 +29,7 @@ extern void CloseTextBox(s8 window_id);
 extern bool8 IsSimpleMenuActive(s32 menu_id);
 extern void CloseSimpleMenu(s8 menu_id);
 
-u32 SentrySetupState(s32 param_0)
+u32 SentrySetupState(s32 mode)
 {
     struct sentry_duty *sentry_duty;
     s32 i;
@@ -73,7 +73,7 @@ u32 SentrySetupState(s32 param_0)
 
     SENTRY_DUTY_PTR->hero_str_id = GetHeroMemberIdx();
     SENTRY_DUTY_PTR->partner_str_id = GetPartnerMemberIdx();
-    SENTRY_DUTY_PTR->mode = param_0;
+    SENTRY_DUTY_PTR->mode = mode;
     SENTRY_DUTY_PTR->scores_menu_id = -2;
     SENTRY_DUTY_PTR->dialogue_box_id = -2;
     SENTRY_DUTY_PTR->diglett_portrait_id = -2;
