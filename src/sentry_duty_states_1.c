@@ -34,19 +34,19 @@ void SentryStateFinalizeRound(void)
     s16 i;
     s8 portrait_id;
 
-    answered = SENTRY_DUTY_PTR->field_0x3870;
-    SENTRY_DUTY_PTR->field_0x3870 = 0;
-    SENTRY_DUTY_PTR->field_0x3884++;
-    SENTRY_DUTY_PTR->field_0x3874 = 0;
-    SENTRY_DUTY_PTR->field_0x3871 = 0;
+    answered = SENTRY_DUTY_PTR->round_active;
+    SENTRY_DUTY_PTR->round_active = 0;
+    SENTRY_DUTY_PTR->round++;
+    SENTRY_DUTY_PTR->frame_counter = 0;
+    SENTRY_DUTY_PTR->timed_out = 0;
     ov14_0238AC04(0);
     if (answered != 0)
     {
-        ov11_022F7058(&SENTRY_DUTY_PTR->field_0x33a8);
-        ov11_022F6EFC(&SENTRY_DUTY_PTR->field_0x346c);
-        SENTRY_DUTY_PTR->field_0x3534 = 1;
-        SENTRY_DUTY_PTR->field_0x3538 = 0;
-        ov11_022F6EFC(&SENTRY_DUTY_PTR->field_0x29b4);
+        ov11_022F7058(&SENTRY_DUTY_PTR->footprint_anim);
+        ov11_022F6EFC(&SENTRY_DUTY_PTR->footprint_overlay_anim);
+        SENTRY_DUTY_PTR->cursor_state = 1;
+        SENTRY_DUTY_PTR->cursor_next_state = 0;
+        ov11_022F6EFC(&SENTRY_DUTY_PTR->cursor_anim);
     }
 
     offset_x = ov14_0238D970[2];
@@ -55,22 +55,22 @@ void SentryStateFinalizeRound(void)
     offset[1] = offset_y;
     for (i = 0; i < 4; i++)
     {
-        ov11_022F6EFC(&SENTRY_DUTY_PTR->field_0x2a78[i]);
-        ov11_022F6EFC(&SENTRY_DUTY_PTR->field_0x2d88[i]);
-        ov11_022F6EFC(&SENTRY_DUTY_PTR->field_0x3098[i]);
+        ov11_022F6EFC(&SENTRY_DUTY_PTR->choice_monster_anims[i]);
+        ov11_022F6EFC(&SENTRY_DUTY_PTR->slot_mark_anims[i]);
+        ov11_022F6EFC(&SENTRY_DUTY_PTR->choice_footprint_anims[i]);
         switch (i)
         {
             case 0:
-                portrait_id = SENTRY_DUTY_PTR->field_0x6;
+                portrait_id = SENTRY_DUTY_PTR->choice_portrait_ids[0];
                 break;
             case 1:
-                portrait_id = SENTRY_DUTY_PTR->field_0x7;
+                portrait_id = SENTRY_DUTY_PTR->choice_portrait_ids[1];
                 break;
             case 2:
-                portrait_id = SENTRY_DUTY_PTR->field_0x8;
+                portrait_id = SENTRY_DUTY_PTR->choice_portrait_ids[2];
                 break;
             case 3:
-                portrait_id = SENTRY_DUTY_PTR->field_0x9;
+                portrait_id = SENTRY_DUTY_PTR->choice_portrait_ids[3];
                 break;
         }
 
@@ -85,43 +85,43 @@ void SentryStateFinalizeRound(void)
         }
     }
 
-    ClearWindow(SENTRY_DUTY_PTR->field_0x4);
-    UpdateWindow(SENTRY_DUTY_PTR->field_0x4);
-    ClearWindow(SENTRY_DUTY_PTR->field_0x5);
-    UpdateWindow(SENTRY_DUTY_PTR->field_0x5);
-    if (SENTRY_DUTY_PTR->field_0x3884 < 6)
+    ClearWindow(SENTRY_DUTY_PTR->top_names_box_id);
+    UpdateWindow(SENTRY_DUTY_PTR->top_names_box_id);
+    ClearWindow(SENTRY_DUTY_PTR->bottom_names_box_id);
+    UpdateWindow(SENTRY_DUTY_PTR->bottom_names_box_id);
+    if (SENTRY_DUTY_PTR->round < 6)
     {
         SENTRY_DUTY_PTR->next_game_state = 0xF;
     }
     else
     {
-        SENTRY_DUTY_PTR->field_0x38ac = 0;
-        if (SetSentryDutyGamePoints(SENTRY_DUTY_PTR->field_0x388c) != 0)
+        SENTRY_DUTY_PTR->dialogue_progress = 0;
+        if (SetSentryDutyGamePoints(SENTRY_DUTY_PTR->points) != 0)
         {
-            SENTRY_DUTY_PTR->field_0x3890 = 0;
-            if (SENTRY_DUTY_PTR->field_0x388c > 0xFA0)
-                SENTRY_DUTY_PTR->field_0x3890 = 1;
+            SENTRY_DUTY_PTR->exit_result = 0;
+            if (SENTRY_DUTY_PTR->points > 0xFA0)
+                SENTRY_DUTY_PTR->exit_result = 1;
 
-            if (SENTRY_DUTY_PTR->field_0x388c > 0x1B58)
-                SENTRY_DUTY_PTR->field_0x3890 = 2;
+            if (SENTRY_DUTY_PTR->points > 0x1B58)
+                SENTRY_DUTY_PTR->exit_result = 2;
 
-            if (SENTRY_DUTY_PTR->field_0x389c != 0)
-                SENTRY_DUTY_PTR->field_0x3890 = 3;
+            if (SENTRY_DUTY_PTR->perfect != 0)
+                SENTRY_DUTY_PTR->exit_result = 3;
         }
         else
         {
-            SENTRY_DUTY_PTR->field_0x3890 = 4;
-            if (SENTRY_DUTY_PTR->field_0x388c > 0xFA0)
-                SENTRY_DUTY_PTR->field_0x3890 = 5;
+            SENTRY_DUTY_PTR->exit_result = 4;
+            if (SENTRY_DUTY_PTR->points > 0xFA0)
+                SENTRY_DUTY_PTR->exit_result = 5;
 
-            if (SENTRY_DUTY_PTR->field_0x388c > 0x1B58)
-                SENTRY_DUTY_PTR->field_0x3890 = 6;
+            if (SENTRY_DUTY_PTR->points > 0x1B58)
+                SENTRY_DUTY_PTR->exit_result = 6;
 
-            if (SENTRY_DUTY_PTR->field_0x389c != 0)
-                SENTRY_DUTY_PTR->field_0x3890 = 7;
+            if (SENTRY_DUTY_PTR->perfect != 0)
+                SENTRY_DUTY_PTR->exit_result = 7;
         }
 
-        switch (SENTRY_DUTY_PTR->field_0x11c)
+        switch (SENTRY_DUTY_PTR->mode)
         {
             case 1:
                 SENTRY_DUTY_PTR->next_game_state = 0x1E;
@@ -141,10 +141,10 @@ void SentryStateF(void)
 
 void SentryState10(void)
 {
-    SENTRY_DUTY_PTR->field_0x3898--;
-    SENTRY_DUTY_PTR->field_0x3894 -= 0xFA;
-    if (SENTRY_DUTY_PTR->field_0x3 != -2)
-        ClearWindow(SENTRY_DUTY_PTR->field_0x3);
+    SENTRY_DUTY_PTR->tries_left--;
+    SENTRY_DUTY_PTR->round_points -= 0xFA;
+    if (SENTRY_DUTY_PTR->footprint_box_id != -2)
+        ClearWindow(SENTRY_DUTY_PTR->footprint_box_id);
 
     PlaySeByIdVolumeWrapper(0x2C08);
     SENTRY_DUTY_PTR->prev_dialogue_str_id = -1;
@@ -158,14 +158,14 @@ void SentryState11(void)
 
 void SentryState12(void)
 {
-    SENTRY_DUTY_PTR->field_0x389c = 0;
-    SENTRY_DUTY_PTR->preprocessor_args.number_vals[0] = 0x2311;
+    SENTRY_DUTY_PTR->perfect = 0;
+    SENTRY_DUTY_PTR->dialogue_args.number_vals[0] = 0x2311;
     SENTRY_DUTY_PTR->next_game_state = 0x13;
 }
 
 void SentryState13(void)
 {
-    SENTRY_DUTY_PTR->field_0x38ac = 1;
+    SENTRY_DUTY_PTR->dialogue_progress = 1;
     SENTRY_DUTY_PTR->next_game_state = 0x17;
 }
 
@@ -176,7 +176,7 @@ void SentryState14(void)
 
 void SentryState15(void)
 {
-    if (SENTRY_DUTY_PTR->field_0x38ac < 2)
+    if (SENTRY_DUTY_PTR->dialogue_progress < 2)
     {
         SentrySetStateIntermediate(0x14);
         return;
@@ -188,28 +188,28 @@ void SentryState15(void)
 
 void SentryState16(void)
 {
-    SENTRY_DUTY_PTR->field_0x38b0 -= 4;
-    if (SENTRY_DUTY_PTR->field_0x38b0 >= -0x40)
+    SENTRY_DUTY_PTR->footprint_y -= 4;
+    if (SENTRY_DUTY_PTR->footprint_y >= -0x40)
         return;
 
-    SENTRY_DUTY_PTR->field_0x389c = 0;
-    SENTRY_DUTY_PTR->field_0x38ac = 0;
+    SENTRY_DUTY_PTR->perfect = 0;
+    SENTRY_DUTY_PTR->dialogue_progress = 0;
     SentrySetStateIntermediate(0x17);
 }
 
 void SentryState17(void)
 {
-    SENTRY_DUTY_PTR->preprocessor_args.flag_vals[0] = SENTRY_DUTY_PTR->field_0x38a2[SENTRY_DUTY_PTR->field_0x387c];
-    if (SENTRY_DUTY_PTR->field_0x3871 == 0)
-        SENTRY_DUTY_PTR->field_0x3554[SENTRY_DUTY_PTR->field_0x3878] = 3;
+    SENTRY_DUTY_PTR->dialogue_args.flag_vals[0] = SENTRY_DUTY_PTR->choices[SENTRY_DUTY_PTR->right_answer_slot];
+    if (SENTRY_DUTY_PTR->timed_out == 0)
+        SENTRY_DUTY_PTR->slot_mark_next_states[SENTRY_DUTY_PTR->selected_slot] = 3;
 
-    SENTRY_DUTY_PTR->field_0x3554[SENTRY_DUTY_PTR->field_0x387c] = 4;
+    SENTRY_DUTY_PTR->slot_mark_next_states[SENTRY_DUTY_PTR->right_answer_slot] = 4;
     SENTRY_DUTY_PTR->next_game_state = 0x18;
 }
 
 void SentryState18(void)
 {
-    if (SENTRY_DUTY_PTR->field_0x38ac < 2)
+    if (SENTRY_DUTY_PTR->dialogue_progress < 2)
     {
         SentrySetStateIntermediate(0x17);
         return;
@@ -225,7 +225,7 @@ void SentryState19(void)
 
 void SentryState1A(void)
 {
-    if (SENTRY_DUTY_PTR->field_0x38ac < 2)
+    if (SENTRY_DUTY_PTR->dialogue_progress < 2)
     {
         SentrySetStateIntermediate(0x19);
         return;
@@ -237,37 +237,37 @@ void SentryState1A(void)
 
 void SentryStateFinalizePoints(void)
 {
-    SENTRY_DUTY_PTR->field_0x38b0 -= 4;
-    if (SENTRY_DUTY_PTR->field_0x38b0 >= -0x40)
+    SENTRY_DUTY_PTR->footprint_y -= 4;
+    if (SENTRY_DUTY_PTR->footprint_y >= -0x40)
         return;
 
-    SENTRY_DUTY_PTR->field_0x388c += SENTRY_DUTY_PTR->field_0x3894;
-    if (SENTRY_DUTY_PTR->field_0x3884 == 5)
+    SENTRY_DUTY_PTR->points += SENTRY_DUTY_PTR->round_points;
+    if (SENTRY_DUTY_PTR->round == 5)
     {
-        if (SENTRY_DUTY_PTR->field_0x389c != 0)
-            SENTRY_DUTY_PTR->field_0x388c += 0x7D0;
+        if (SENTRY_DUTY_PTR->perfect != 0)
+            SENTRY_DUTY_PTR->points += 0x7D0;
     }
 
-    SENTRY_DUTY_PTR->field_0x38ac = 0;
+    SENTRY_DUTY_PTR->dialogue_progress = 0;
     SentrySetStateIntermediate(0x1C);
 }
 
 void SentryState1C(void)
 {
-    SENTRY_DUTY_PTR->preprocessor_args.number_vals[0] = 0x2310;
-    SENTRY_DUTY_PTR->field_0x3554[SENTRY_DUTY_PTR->field_0x3878] = 2;
+    SENTRY_DUTY_PTR->dialogue_args.number_vals[0] = 0x2310;
+    SENTRY_DUTY_PTR->slot_mark_next_states[SENTRY_DUTY_PTR->selected_slot] = 2;
     SENTRY_DUTY_PTR->next_game_state = 0x1D;
 }
 
 void SentryState1D(void)
 {
-    if (SENTRY_DUTY_PTR->field_0x38ac == 1)
+    if (SENTRY_DUTY_PTR->dialogue_progress == 1)
     {
-        if (SENTRY_DUTY_PTR->field_0x3 != -2)
-            ClearWindow(SENTRY_DUTY_PTR->field_0x3);
+        if (SENTRY_DUTY_PTR->footprint_box_id != -2)
+            ClearWindow(SENTRY_DUTY_PTR->footprint_box_id);
     }
 
-    if (SENTRY_DUTY_PTR->field_0x38ac < 1)
+    if (SENTRY_DUTY_PTR->dialogue_progress < 1)
     {
         SentrySetStateIntermediate(0x1C);
         return;
@@ -283,19 +283,19 @@ void SentryState1E(void)
 
 void SentryState1F(void)
 {
-    if (SENTRY_DUTY_PTR->field_0x38ac < 2)
+    if (SENTRY_DUTY_PTR->dialogue_progress < 2)
     {
         SentrySetStateIntermediate(0x1E);
-        SENTRY_DUTY_PTR->field_0x38b4 = 0x1E;
+        SENTRY_DUTY_PTR->exit_timer = 0x1E;
         return;
     }
 
-    if (SENTRY_DUTY_PTR->field_0x38b4 == 0x1E)
+    if (SENTRY_DUTY_PTR->exit_timer == 0x1E)
         sub_02017B7C(0x1E);
 
-    if (SENTRY_DUTY_PTR->field_0x38b4 > 0)
+    if (SENTRY_DUTY_PTR->exit_timer > 0)
     {
-        SENTRY_DUTY_PTR->field_0x38b4--;
+        SENTRY_DUTY_PTR->exit_timer--;
         return;
     }
 
@@ -309,19 +309,19 @@ void SentryState20(void)
 
 void SentryState21(void)
 {
-    if (SENTRY_DUTY_PTR->field_0x38ac < 2)
+    if (SENTRY_DUTY_PTR->dialogue_progress < 2)
     {
         SentrySetStateIntermediate(0x20);
-        SENTRY_DUTY_PTR->field_0x38b4 = 0x1E;
+        SENTRY_DUTY_PTR->exit_timer = 0x1E;
         return;
     }
 
-    if (SENTRY_DUTY_PTR->field_0x38b4 == 0x1E)
+    if (SENTRY_DUTY_PTR->exit_timer == 0x1E)
         sub_02017B7C(0x1E);
 
-    if (SENTRY_DUTY_PTR->field_0x38b4 > 0)
+    if (SENTRY_DUTY_PTR->exit_timer > 0)
     {
-        SENTRY_DUTY_PTR->field_0x38b4--;
+        SENTRY_DUTY_PTR->exit_timer--;
         return;
     }
 

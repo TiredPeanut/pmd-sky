@@ -46,26 +46,23 @@ struct preprocess_args {
 };
 
 struct sentry_duty {
-    s8 field_0x0;  // ID of the footprint choices menu
-    s8 field_0x1;  // ID of the dialogue box
-    s8 field_0x2;  // ID of a portrait box
-    s8 field_0x3;
-    s8 field_0x4;
-    s8 field_0x5;
-    s8 field_0x6;
-    s8 field_0x7;
-    s8 field_0x8;
-    s8 field_0x9;
-    s8 field_0xa;  // ID of the debug menu
-    s8 field_0xb;  // ID of a two-option menu
+    s8 scores_menu_id;  // ID of the footprint choices menu
+    s8 dialogue_box_id;  // ID of the dialogue box
+    s8 diglett_portrait_id;  // ID of a portrait box
+    s8 footprint_box_id;
+    s8 top_names_box_id;
+    s8 bottom_names_box_id;
+    s8 choice_portrait_ids[4];  // 0x6: portrait box IDs for the four choice slots
+    s8 debug_menu_id;  // ID of the debug menu
+    s8 debug_option_menu_id;  // ID of a two-option menu
     s32 field_0xc;
     s32 field_0x10;
     u16 field_0x14;
     s16 field_0x16;
     s32 field_0x18;
     u8 field_0x1c[0x88];
-    struct preprocess_args preprocessor_args;  // 0xA4: Args for the dialogue window strings
-    u8 field_0xf4[0x10];  // 0xF4: Portrait params
+    struct preprocess_args dialogue_args;  // 0xA4: Args for the dialogue window strings
+    u8 diglett_portrait_params[0x10];  // 0xF4: Portrait params
     // 0x104: Outermost game state, controls the "game completion" sequence.
     // Values from enum sentry_completion_state.
     s32 completion_state;
@@ -79,58 +76,58 @@ struct sentry_duty {
     s32 next_game_state;
     // 0x114: previous string ID displayed in the dialogue window
     s32 prev_dialogue_str_id;
-    u32 field_0x118;  // Bitflags for which UI elements (windows, menus, portraits) are shown
-    s32 field_0x11c;
-    struct animation field_0x120;
-    struct animation field_0x1e4;
+    u32 window_flags;  // Bitflags for which UI elements (windows, menus, portraits) are shown
+    s32 mode;
+    struct animation marker_anim_data;
+    struct animation hud_anim_data;
     struct animation field_0x2a8;
-    struct animation field_0x36c[16];
-    struct animation field_0xfac[16];
-    struct animation field_0x1bec[16];
-    struct animation field_0x282c[2];
-    struct animation field_0x29b4;
-    struct animation field_0x2a78[4];
-    struct animation field_0x2d88[4];
-    struct animation field_0x3098[4];
-    struct animation field_0x33a8;
-    struct animation field_0x346c;
+    struct animation timer_icon_anims[16];
+    struct animation round_digit_anims[16];
+    struct animation points_digit_anims[16];
+    struct animation try_icon_anims[2];
+    struct animation cursor_anim;
+    struct animation choice_monster_anims[4];
+    struct animation slot_mark_anims[4];
+    struct animation choice_footprint_anims[4];
+    struct animation footprint_anim;
+    struct animation footprint_overlay_anim;
     u8 field_0x3530;
     u8 field_0x3531[3];
-    s32 field_0x3534;
-    s32 field_0x3538;
-    s32 field_0x353c;
-    s32 field_0x3540;
-    s32 field_0x3544[4];
-    s32 field_0x3554[4];  // Per-footprint-slot display state
-    s32 field_0x3564;
-    s32 field_0x3568;
-    s32 field_0x356c;
-    u8 field_0x3570[0x100];  // Buffer for the round number string
-    u8 field_0x3670[0x100];  // Buffer for the round count string
-    u8 field_0x3770[0x100];  // Buffer for the score string
-    u8 field_0x3870;
-    u8 field_0x3871;
+    s32 cursor_state;
+    s32 cursor_next_state;
+    s32 choice_footprints_state;
+    s32 choice_footprints_next_state;
+    s32 slot_mark_states[4];
+    s32 slot_mark_next_states[4];  // Per-footprint-slot display state
+    s32 round_display;
+    s32 points_display;
+    s32 tries_display;
+    u8 round_str[0x100];  // Buffer for the round number string
+    u8 round_count_str[0x100];  // Buffer for the round count string
+    u8 points_str[0x100];  // Buffer for the score string
+    u8 round_active;
+    u8 timed_out;
     u8 field_0x3872[2];
-    s32 field_0x3874;
-    s32 field_0x3878;  // Index of a footprint slot
-    s32 field_0x387c;  // Index of a footprint slot
-    s32 field_0x3880;
-    s32 field_0x3884;  // Number of rounds played
-    s32 field_0x3888;  // Cycles 0-3, selects a dialogue string variant
-    s32 field_0x388c;  // Total points
-    s32 field_0x3890;
-    s32 field_0x3894;  // Points delta for the current round
-    s32 field_0x3898;
-    u8 field_0x389c;
-    u8 field_0x389d[5];
-    s16 field_0x38a2[4];
+    s32 frame_counter;
+    s32 selected_slot;  // Index of a footprint slot
+    s32 right_answer_slot;  // Index of a footprint slot
+    s32 right_answer_data_idx;
+    s32 round;  // Number of rounds played
+    s32 dialogue_variant;  // Cycles 0-3, selects a dialogue string variant
+    s32 points;  // Total points
+    s32 exit_result;
+    s32 round_points;  // Points delta for the current round
+    s32 tries_left;
+    u8 perfect;
+    u8 hint_shown[5];
+    s16 choices[4];
     u8 field_0x38aa[2];
-    s32 field_0x38ac;  // Dialogue progress counter
-    s32 field_0x38b0;
-    s32 field_0x38b4;  // Countdown timer
-    s32 field_0x38b8[6];
-    s16 field_0x38d0;  // Hero team member index
-    s16 field_0x38d2;  // Partner team member index
+    s32 dialogue_progress;  // Dialogue progress counter
+    s32 footprint_y;
+    s32 exit_timer;  // Countdown timer
+    s32 prev_right_answer_data_idxs[6];
+    s16 hero_str_id;  // Hero team member index
+    s16 partner_str_id;  // Partner team member index
 };
 
 #endif //PMDSKY_SENTRY_DUTY_H

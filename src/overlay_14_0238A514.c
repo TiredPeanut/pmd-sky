@@ -36,83 +36,83 @@ u32 SentrySetupState(s32 param_0)
 
     sentry_duty = MemAlloc(0x38D4, 8);
     SENTRY_DUTY_PTR = sentry_duty;
-    InitPreprocessorArgs(&sentry_duty->preprocessor_args);
+    InitPreprocessorArgs(&sentry_duty->dialogue_args);
     SENTRY_DUTY_PTR->completion_state = SENTRY_COMPLETION_IN_PROGRESS;
     SENTRY_DUTY_PTR->next_game_state = SENTRY_DUTY_PTR->game_state;
     SENTRY_DUTY_PTR->control_state = SENTRY_CTRL_CONTINUE;
     SENTRY_DUTY_PTR->prev_dialogue_str_id = -1;
-    SENTRY_DUTY_PTR->field_0x118 = 0;
-    SENTRY_DUTY_PTR->field_0x388c = 0;
-    SENTRY_DUTY_PTR->field_0x3890 = 0;
+    SENTRY_DUTY_PTR->window_flags = 0;
+    SENTRY_DUTY_PTR->points = 0;
+    SENTRY_DUTY_PTR->exit_result = 0;
     SENTRY_DUTY_PTR->field_0x3530 = 0;
-    SENTRY_DUTY_PTR->field_0x3534 = 2;
-    SENTRY_DUTY_PTR->field_0x3538 = 0;
-    SENTRY_DUTY_PTR->field_0x353c = 0;
-    SENTRY_DUTY_PTR->field_0x3540 = 0;
-    SENTRY_DUTY_PTR->field_0x3564 = -1;
-    SENTRY_DUTY_PTR->field_0x3568 = -1;
-    SENTRY_DUTY_PTR->field_0x356c = 0;
-    SENTRY_DUTY_PTR->field_0x3870 = 0;
-    SENTRY_DUTY_PTR->field_0x3884 = 0;
-    SENTRY_DUTY_PTR->field_0x388c = 0;
-    SENTRY_DUTY_PTR->field_0x3898 = 2;
-    SENTRY_DUTY_PTR->field_0x389c = 1;
+    SENTRY_DUTY_PTR->cursor_state = 2;
+    SENTRY_DUTY_PTR->cursor_next_state = 0;
+    SENTRY_DUTY_PTR->choice_footprints_state = 0;
+    SENTRY_DUTY_PTR->choice_footprints_next_state = 0;
+    SENTRY_DUTY_PTR->round_display = -1;
+    SENTRY_DUTY_PTR->points_display = -1;
+    SENTRY_DUTY_PTR->tries_display = 0;
+    SENTRY_DUTY_PTR->round_active = 0;
+    SENTRY_DUTY_PTR->round = 0;
+    SENTRY_DUTY_PTR->points = 0;
+    SENTRY_DUTY_PTR->tries_left = 2;
+    SENTRY_DUTY_PTR->perfect = 1;
     for (i = 0; i < 4; i++)
     {
-        SENTRY_DUTY_PTR->field_0x3544[i] = 1;
-        SENTRY_DUTY_PTR->field_0x3554[i] = 1;
+        SENTRY_DUTY_PTR->slot_mark_states[i] = 1;
+        SENTRY_DUTY_PTR->slot_mark_next_states[i] = 1;
     }
 
-    SENTRY_DUTY_PTR->field_0x3871 = 0;
-    SENTRY_DUTY_PTR->field_0x3874 = 0;
-    SENTRY_DUTY_PTR->field_0x38b0 = 0x60;
+    SENTRY_DUTY_PTR->timed_out = 0;
+    SENTRY_DUTY_PTR->frame_counter = 0;
+    SENTRY_DUTY_PTR->footprint_y = 0x60;
     for (i = 0; i < 6; i++)
     {
-        SENTRY_DUTY_PTR->field_0x38b8[i] = -1;
+        SENTRY_DUTY_PTR->prev_right_answer_data_idxs[i] = -1;
     }
 
-    SENTRY_DUTY_PTR->field_0x38d0 = GetHeroMemberIdx();
-    SENTRY_DUTY_PTR->field_0x38d2 = GetPartnerMemberIdx();
-    SENTRY_DUTY_PTR->field_0x11c = param_0;
-    SENTRY_DUTY_PTR->field_0x0 = -2;
-    SENTRY_DUTY_PTR->field_0x1 = -2;
-    SENTRY_DUTY_PTR->field_0x2 = -2;
-    SENTRY_DUTY_PTR->field_0x3 = -2;
-    SENTRY_DUTY_PTR->field_0x4 = -2;
-    SENTRY_DUTY_PTR->field_0x5 = -2;
-    SENTRY_DUTY_PTR->field_0x6 = -2;
-    SENTRY_DUTY_PTR->field_0x7 = -2;
-    SENTRY_DUTY_PTR->field_0x8 = -2;
-    SENTRY_DUTY_PTR->field_0x9 = -2;
-    SENTRY_DUTY_PTR->field_0xa = -2;
-    SENTRY_DUTY_PTR->field_0xb = -2;
+    SENTRY_DUTY_PTR->hero_str_id = GetHeroMemberIdx();
+    SENTRY_DUTY_PTR->partner_str_id = GetPartnerMemberIdx();
+    SENTRY_DUTY_PTR->mode = param_0;
+    SENTRY_DUTY_PTR->scores_menu_id = -2;
+    SENTRY_DUTY_PTR->dialogue_box_id = -2;
+    SENTRY_DUTY_PTR->diglett_portrait_id = -2;
+    SENTRY_DUTY_PTR->footprint_box_id = -2;
+    SENTRY_DUTY_PTR->top_names_box_id = -2;
+    SENTRY_DUTY_PTR->bottom_names_box_id = -2;
+    SENTRY_DUTY_PTR->choice_portrait_ids[0] = -2;
+    SENTRY_DUTY_PTR->choice_portrait_ids[1] = -2;
+    SENTRY_DUTY_PTR->choice_portrait_ids[2] = -2;
+    SENTRY_DUTY_PTR->choice_portrait_ids[3] = -2;
+    SENTRY_DUTY_PTR->debug_menu_id = -2;
+    SENTRY_DUTY_PTR->debug_option_menu_id = -2;
     ov14_0238AC04(0);
 #ifdef EUROPE
-    LoadObjectAnimData(&SENTRY_DUTY_PTR->field_0x120, 0xBD, 0x8100000);
-    LoadObjectAnimData(&SENTRY_DUTY_PTR->field_0x1e4, 0xDD, 0x88080000);
+    LoadObjectAnimData(&SENTRY_DUTY_PTR->marker_anim_data, 0xBD, 0x8100000);
+    LoadObjectAnimData(&SENTRY_DUTY_PTR->hud_anim_data, 0xDD, 0x88080000);
 #else
-    LoadObjectAnimData(&SENTRY_DUTY_PTR->field_0x120, 0xAD, 0x8100000);
-    LoadObjectAnimData(&SENTRY_DUTY_PTR->field_0x1e4, 0xCD, 0x88080000);
+    LoadObjectAnimData(&SENTRY_DUTY_PTR->marker_anim_data, 0xAD, 0x8100000);
+    LoadObjectAnimData(&SENTRY_DUTY_PTR->hud_anim_data, 0xCD, 0x88080000);
 #endif
-    InitAnimDataFromOtherAnimDataVeneer(&SENTRY_DUTY_PTR->field_0x2a8, &SENTRY_DUTY_PTR->field_0x1e4);
+    InitAnimDataFromOtherAnimDataVeneer(&SENTRY_DUTY_PTR->field_0x2a8, &SENTRY_DUTY_PTR->hud_anim_data);
     SetAnimDataFields2(&SENTRY_DUTY_PTR->field_0x2a8, 0x800, 0);
     for (i = 0; i < 16; i++)
     {
-        InitAnimDataFromOtherAnimDataVeneer(&SENTRY_DUTY_PTR->field_0x36c[i], &SENTRY_DUTY_PTR->field_0x1e4);
-        SetAnimDataFields2(&SENTRY_DUTY_PTR->field_0x36c[i], 0x800, 0);
-        InitAnimDataFromOtherAnimDataVeneer(&SENTRY_DUTY_PTR->field_0xfac[i], &SENTRY_DUTY_PTR->field_0x1e4);
-        SetAnimDataFieldsWrapper(&SENTRY_DUTY_PTR->field_0xfac[i], 0xC8100000);
-        InitAnimDataFromOtherAnimDataVeneer(&SENTRY_DUTY_PTR->field_0x1bec[i], &SENTRY_DUTY_PTR->field_0x1e4);
-        SetAnimDataFieldsWrapper(&SENTRY_DUTY_PTR->field_0x1bec[i], 0xC8100000);
+        InitAnimDataFromOtherAnimDataVeneer(&SENTRY_DUTY_PTR->timer_icon_anims[i], &SENTRY_DUTY_PTR->hud_anim_data);
+        SetAnimDataFields2(&SENTRY_DUTY_PTR->timer_icon_anims[i], 0x800, 0);
+        InitAnimDataFromOtherAnimDataVeneer(&SENTRY_DUTY_PTR->round_digit_anims[i], &SENTRY_DUTY_PTR->hud_anim_data);
+        SetAnimDataFieldsWrapper(&SENTRY_DUTY_PTR->round_digit_anims[i], 0xC8100000);
+        InitAnimDataFromOtherAnimDataVeneer(&SENTRY_DUTY_PTR->points_digit_anims[i], &SENTRY_DUTY_PTR->hud_anim_data);
+        SetAnimDataFieldsWrapper(&SENTRY_DUTY_PTR->points_digit_anims[i], 0xC8100000);
     }
 
     for (i = 0; i < 2; i++)
     {
-        InitAnimDataFromOtherAnimDataVeneer(&SENTRY_DUTY_PTR->field_0x282c[i], &SENTRY_DUTY_PTR->field_0x1e4);
-        SetAnimDataFieldsWrapper(&SENTRY_DUTY_PTR->field_0x282c[i], 0xC8100000);
+        InitAnimDataFromOtherAnimDataVeneer(&SENTRY_DUTY_PTR->try_icon_anims[i], &SENTRY_DUTY_PTR->hud_anim_data);
+        SetAnimDataFieldsWrapper(&SENTRY_DUTY_PTR->try_icon_anims[i], 0xC8100000);
     }
 
-    if (SENTRY_DUTY_PTR->field_0x11c == 2)
+    if (SENTRY_DUTY_PTR->mode == 2)
     {
         SENTRY_DUTY_PTR->game_state = 4;
     }
@@ -127,51 +127,51 @@ u32 SentrySetupState(s32 param_0)
 
 void ov14_0238A514(void)
 {
-    if (!(SENTRY_DUTY_PTR->field_0x118 & 2) && SENTRY_DUTY_PTR->field_0x1 != -2)
-        sub_0202F334(SENTRY_DUTY_PTR->field_0x1);
+    if (!(SENTRY_DUTY_PTR->window_flags & 2) && SENTRY_DUTY_PTR->dialogue_box_id != -2)
+        sub_0202F334(SENTRY_DUTY_PTR->dialogue_box_id);
 
-    if (!(SENTRY_DUTY_PTR->field_0x118 & 1) && SENTRY_DUTY_PTR->field_0x0 != -2)
-        sub_0202BC60(SENTRY_DUTY_PTR->field_0x0);
+    if (!(SENTRY_DUTY_PTR->window_flags & 1) && SENTRY_DUTY_PTR->scores_menu_id != -2)
+        sub_0202BC60(SENTRY_DUTY_PTR->scores_menu_id);
 
-    if (!(SENTRY_DUTY_PTR->field_0x118 & 4) && SENTRY_DUTY_PTR->field_0x2 != -2)
-        HidePortraitBox(SENTRY_DUTY_PTR->field_0x2);
+    if (!(SENTRY_DUTY_PTR->window_flags & 4) && SENTRY_DUTY_PTR->diglett_portrait_id != -2)
+        HidePortraitBox(SENTRY_DUTY_PTR->diglett_portrait_id);
 
-    if (!(SENTRY_DUTY_PTR->field_0x118 & 8) && SENTRY_DUTY_PTR->field_0x3 != -2)
-        sub_0202F954(SENTRY_DUTY_PTR->field_0x3);
+    if (!(SENTRY_DUTY_PTR->window_flags & 8) && SENTRY_DUTY_PTR->footprint_box_id != -2)
+        sub_0202F954(SENTRY_DUTY_PTR->footprint_box_id);
 
-    if (!(SENTRY_DUTY_PTR->field_0x118 & 0x10) && SENTRY_DUTY_PTR->field_0x4 != -2)
-        sub_0202F954(SENTRY_DUTY_PTR->field_0x4);
+    if (!(SENTRY_DUTY_PTR->window_flags & 0x10) && SENTRY_DUTY_PTR->top_names_box_id != -2)
+        sub_0202F954(SENTRY_DUTY_PTR->top_names_box_id);
 
-    if (!(SENTRY_DUTY_PTR->field_0x118 & 0x20) && SENTRY_DUTY_PTR->field_0x5 != -2)
-        sub_0202F954(SENTRY_DUTY_PTR->field_0x5);
+    if (!(SENTRY_DUTY_PTR->window_flags & 0x20) && SENTRY_DUTY_PTR->bottom_names_box_id != -2)
+        sub_0202F954(SENTRY_DUTY_PTR->bottom_names_box_id);
 
-    if (!(SENTRY_DUTY_PTR->field_0x118 & 0x40) && SENTRY_DUTY_PTR->field_0x6 != -2)
-        HidePortraitBox(SENTRY_DUTY_PTR->field_0x6);
+    if (!(SENTRY_DUTY_PTR->window_flags & 0x40) && SENTRY_DUTY_PTR->choice_portrait_ids[0] != -2)
+        HidePortraitBox(SENTRY_DUTY_PTR->choice_portrait_ids[0]);
 
-    if (!(SENTRY_DUTY_PTR->field_0x118 & 0x80) && SENTRY_DUTY_PTR->field_0x7 != -2)
-        HidePortraitBox(SENTRY_DUTY_PTR->field_0x7);
+    if (!(SENTRY_DUTY_PTR->window_flags & 0x80) && SENTRY_DUTY_PTR->choice_portrait_ids[1] != -2)
+        HidePortraitBox(SENTRY_DUTY_PTR->choice_portrait_ids[1]);
 
-    if (!(SENTRY_DUTY_PTR->field_0x118 & 0x100) && SENTRY_DUTY_PTR->field_0x8 != -2)
-        HidePortraitBox(SENTRY_DUTY_PTR->field_0x8);
+    if (!(SENTRY_DUTY_PTR->window_flags & 0x100) && SENTRY_DUTY_PTR->choice_portrait_ids[2] != -2)
+        HidePortraitBox(SENTRY_DUTY_PTR->choice_portrait_ids[2]);
 
-    if (!(SENTRY_DUTY_PTR->field_0x118 & 0x200) && SENTRY_DUTY_PTR->field_0x9 != -2)
-        HidePortraitBox(SENTRY_DUTY_PTR->field_0x9);
+    if (!(SENTRY_DUTY_PTR->window_flags & 0x200) && SENTRY_DUTY_PTR->choice_portrait_ids[3] != -2)
+        HidePortraitBox(SENTRY_DUTY_PTR->choice_portrait_ids[3]);
 }
 
 u32 ov14_0238A6B0(void)
 {
     s32 closed;
 
-    if (!(SENTRY_DUTY_PTR->field_0x118 & 2))
+    if (!(SENTRY_DUTY_PTR->window_flags & 2))
     {
-        if (SENTRY_DUTY_PTR->field_0x1 == -2)
+        if (SENTRY_DUTY_PTR->dialogue_box_id == -2)
             closed = 1;
-        else if (IsDialogueBoxActive(SENTRY_DUTY_PTR->field_0x1))
+        else if (IsDialogueBoxActive(SENTRY_DUTY_PTR->dialogue_box_id))
             closed = 0;
         else
         {
-            CloseDialogueBox(SENTRY_DUTY_PTR->field_0x1);
-            SENTRY_DUTY_PTR->field_0x1 = -2;
+            CloseDialogueBox(SENTRY_DUTY_PTR->dialogue_box_id);
+            SENTRY_DUTY_PTR->dialogue_box_id = -2;
             closed = 1;
         }
 
@@ -179,16 +179,16 @@ u32 ov14_0238A6B0(void)
             return 0;
     }
 
-    if (!(SENTRY_DUTY_PTR->field_0x118 & 1))
+    if (!(SENTRY_DUTY_PTR->window_flags & 1))
     {
-        if (SENTRY_DUTY_PTR->field_0x0 == -2)
+        if (SENTRY_DUTY_PTR->scores_menu_id == -2)
             closed = 1;
-        else if (IsAdvancedMenuActive2(SENTRY_DUTY_PTR->field_0x0))
+        else if (IsAdvancedMenuActive2(SENTRY_DUTY_PTR->scores_menu_id))
             closed = 0;
         else
         {
-            CloseAdvancedMenu(SENTRY_DUTY_PTR->field_0x0);
-            SENTRY_DUTY_PTR->field_0x0 = -2;
+            CloseAdvancedMenu(SENTRY_DUTY_PTR->scores_menu_id);
+            SENTRY_DUTY_PTR->scores_menu_id = -2;
             closed = 1;
         }
 
@@ -196,16 +196,16 @@ u32 ov14_0238A6B0(void)
             return 0;
     }
 
-    if (!(SENTRY_DUTY_PTR->field_0x118 & 4))
+    if (!(SENTRY_DUTY_PTR->window_flags & 4))
     {
-        if (SENTRY_DUTY_PTR->field_0x2 == -2)
+        if (SENTRY_DUTY_PTR->diglett_portrait_id == -2)
             closed = 1;
-        else if (PortraitBoxNeedsUpdate(SENTRY_DUTY_PTR->field_0x2))
+        else if (PortraitBoxNeedsUpdate(SENTRY_DUTY_PTR->diglett_portrait_id))
             closed = 0;
         else
         {
-            ClosePortraitBox(SENTRY_DUTY_PTR->field_0x2);
-            SENTRY_DUTY_PTR->field_0x2 = -2;
+            ClosePortraitBox(SENTRY_DUTY_PTR->diglett_portrait_id);
+            SENTRY_DUTY_PTR->diglett_portrait_id = -2;
             closed = 1;
         }
 
@@ -213,16 +213,16 @@ u32 ov14_0238A6B0(void)
             return 0;
     }
 
-    if (!(SENTRY_DUTY_PTR->field_0x118 & 8))
+    if (!(SENTRY_DUTY_PTR->window_flags & 8))
     {
-        if (SENTRY_DUTY_PTR->field_0x3 == -2)
+        if (SENTRY_DUTY_PTR->footprint_box_id == -2)
             closed = 1;
-        else if (IsTextBoxActive(SENTRY_DUTY_PTR->field_0x3))
+        else if (IsTextBoxActive(SENTRY_DUTY_PTR->footprint_box_id))
             closed = 0;
         else
         {
-            CloseTextBox(SENTRY_DUTY_PTR->field_0x3);
-            SENTRY_DUTY_PTR->field_0x3 = -2;
+            CloseTextBox(SENTRY_DUTY_PTR->footprint_box_id);
+            SENTRY_DUTY_PTR->footprint_box_id = -2;
             closed = 1;
         }
 
@@ -230,16 +230,16 @@ u32 ov14_0238A6B0(void)
             return 0;
     }
 
-    if (!(SENTRY_DUTY_PTR->field_0x118 & 0x10))
+    if (!(SENTRY_DUTY_PTR->window_flags & 0x10))
     {
-        if (SENTRY_DUTY_PTR->field_0x4 == -2)
+        if (SENTRY_DUTY_PTR->top_names_box_id == -2)
             closed = 1;
-        else if (IsTextBoxActive(SENTRY_DUTY_PTR->field_0x4))
+        else if (IsTextBoxActive(SENTRY_DUTY_PTR->top_names_box_id))
             closed = 0;
         else
         {
-            CloseTextBox(SENTRY_DUTY_PTR->field_0x4);
-            SENTRY_DUTY_PTR->field_0x4 = -2;
+            CloseTextBox(SENTRY_DUTY_PTR->top_names_box_id);
+            SENTRY_DUTY_PTR->top_names_box_id = -2;
             closed = 1;
         }
 
@@ -247,16 +247,16 @@ u32 ov14_0238A6B0(void)
             return 0;
     }
 
-    if (!(SENTRY_DUTY_PTR->field_0x118 & 0x20))
+    if (!(SENTRY_DUTY_PTR->window_flags & 0x20))
     {
-        if (SENTRY_DUTY_PTR->field_0x5 == -2)
+        if (SENTRY_DUTY_PTR->bottom_names_box_id == -2)
             closed = 1;
-        else if (IsTextBoxActive(SENTRY_DUTY_PTR->field_0x5))
+        else if (IsTextBoxActive(SENTRY_DUTY_PTR->bottom_names_box_id))
             closed = 0;
         else
         {
-            CloseTextBox(SENTRY_DUTY_PTR->field_0x5);
-            SENTRY_DUTY_PTR->field_0x5 = -2;
+            CloseTextBox(SENTRY_DUTY_PTR->bottom_names_box_id);
+            SENTRY_DUTY_PTR->bottom_names_box_id = -2;
             closed = 1;
         }
 
@@ -264,16 +264,16 @@ u32 ov14_0238A6B0(void)
             return 0;
     }
 
-    if (!(SENTRY_DUTY_PTR->field_0x118 & 0x40))
+    if (!(SENTRY_DUTY_PTR->window_flags & 0x40))
     {
-        if (SENTRY_DUTY_PTR->field_0x6 == -2)
+        if (SENTRY_DUTY_PTR->choice_portrait_ids[0] == -2)
             closed = 1;
-        else if (PortraitBoxNeedsUpdate(SENTRY_DUTY_PTR->field_0x6))
+        else if (PortraitBoxNeedsUpdate(SENTRY_DUTY_PTR->choice_portrait_ids[0]))
             closed = 0;
         else
         {
-            ClosePortraitBox(SENTRY_DUTY_PTR->field_0x6);
-            SENTRY_DUTY_PTR->field_0x6 = -2;
+            ClosePortraitBox(SENTRY_DUTY_PTR->choice_portrait_ids[0]);
+            SENTRY_DUTY_PTR->choice_portrait_ids[0] = -2;
             closed = 1;
         }
 
@@ -281,16 +281,16 @@ u32 ov14_0238A6B0(void)
             return 0;
     }
 
-    if (!(SENTRY_DUTY_PTR->field_0x118 & 0x80))
+    if (!(SENTRY_DUTY_PTR->window_flags & 0x80))
     {
-        if (SENTRY_DUTY_PTR->field_0x7 == -2)
+        if (SENTRY_DUTY_PTR->choice_portrait_ids[1] == -2)
             closed = 1;
-        else if (PortraitBoxNeedsUpdate(SENTRY_DUTY_PTR->field_0x7))
+        else if (PortraitBoxNeedsUpdate(SENTRY_DUTY_PTR->choice_portrait_ids[1]))
             closed = 0;
         else
         {
-            ClosePortraitBox(SENTRY_DUTY_PTR->field_0x7);
-            SENTRY_DUTY_PTR->field_0x7 = -2;
+            ClosePortraitBox(SENTRY_DUTY_PTR->choice_portrait_ids[1]);
+            SENTRY_DUTY_PTR->choice_portrait_ids[1] = -2;
             closed = 1;
         }
 
@@ -298,16 +298,16 @@ u32 ov14_0238A6B0(void)
             return 0;
     }
 
-    if (!(SENTRY_DUTY_PTR->field_0x118 & 0x100))
+    if (!(SENTRY_DUTY_PTR->window_flags & 0x100))
     {
-        if (SENTRY_DUTY_PTR->field_0x8 == -2)
+        if (SENTRY_DUTY_PTR->choice_portrait_ids[2] == -2)
             closed = 1;
-        else if (PortraitBoxNeedsUpdate(SENTRY_DUTY_PTR->field_0x8))
+        else if (PortraitBoxNeedsUpdate(SENTRY_DUTY_PTR->choice_portrait_ids[2]))
             closed = 0;
         else
         {
-            ClosePortraitBox(SENTRY_DUTY_PTR->field_0x8);
-            SENTRY_DUTY_PTR->field_0x8 = -2;
+            ClosePortraitBox(SENTRY_DUTY_PTR->choice_portrait_ids[2]);
+            SENTRY_DUTY_PTR->choice_portrait_ids[2] = -2;
             closed = 1;
         }
 
@@ -315,16 +315,16 @@ u32 ov14_0238A6B0(void)
             return 0;
     }
 
-    if (!(SENTRY_DUTY_PTR->field_0x118 & 0x200))
+    if (!(SENTRY_DUTY_PTR->window_flags & 0x200))
     {
-        if (SENTRY_DUTY_PTR->field_0x9 == -2)
+        if (SENTRY_DUTY_PTR->choice_portrait_ids[3] == -2)
             closed = 1;
-        else if (PortraitBoxNeedsUpdate(SENTRY_DUTY_PTR->field_0x9))
+        else if (PortraitBoxNeedsUpdate(SENTRY_DUTY_PTR->choice_portrait_ids[3]))
             closed = 0;
         else
         {
-            ClosePortraitBox(SENTRY_DUTY_PTR->field_0x9);
-            SENTRY_DUTY_PTR->field_0x9 = -2;
+            ClosePortraitBox(SENTRY_DUTY_PTR->choice_portrait_ids[3]);
+            SENTRY_DUTY_PTR->choice_portrait_ids[3] = -2;
             closed = 1;
         }
 
@@ -332,16 +332,16 @@ u32 ov14_0238A6B0(void)
             return 0;
     }
 
-    if (!(SENTRY_DUTY_PTR->field_0x118 & 0x40000000))
+    if (!(SENTRY_DUTY_PTR->window_flags & 0x40000000))
     {
-        if (SENTRY_DUTY_PTR->field_0xa == -2)
+        if (SENTRY_DUTY_PTR->debug_menu_id == -2)
             closed = 1;
-        else if (IsSimpleMenuActive(SENTRY_DUTY_PTR->field_0xa))
+        else if (IsSimpleMenuActive(SENTRY_DUTY_PTR->debug_menu_id))
             closed = 0;
         else
         {
-            CloseSimpleMenu(SENTRY_DUTY_PTR->field_0xa);
-            SENTRY_DUTY_PTR->field_0xa = -2;
+            CloseSimpleMenu(SENTRY_DUTY_PTR->debug_menu_id);
+            SENTRY_DUTY_PTR->debug_menu_id = -2;
             closed = 1;
         }
 
@@ -349,16 +349,16 @@ u32 ov14_0238A6B0(void)
             return 0;
     }
 
-    if (!(SENTRY_DUTY_PTR->field_0x118 & 0x80000000))
+    if (!(SENTRY_DUTY_PTR->window_flags & 0x80000000))
     {
-        if (SENTRY_DUTY_PTR->field_0xb == -2)
+        if (SENTRY_DUTY_PTR->debug_option_menu_id == -2)
             closed = 1;
-        else if (IsSimpleMenuActive(SENTRY_DUTY_PTR->field_0xb))
+        else if (IsSimpleMenuActive(SENTRY_DUTY_PTR->debug_option_menu_id))
             closed = 0;
         else
         {
-            CloseSimpleMenu(SENTRY_DUTY_PTR->field_0xb);
-            SENTRY_DUTY_PTR->field_0xb = -2;
+            CloseSimpleMenu(SENTRY_DUTY_PTR->debug_option_menu_id);
+            SENTRY_DUTY_PTR->debug_option_menu_id = -2;
             closed = 1;
         }
 
