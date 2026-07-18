@@ -18,6 +18,16 @@ extern void sub_0202F334(s8 window_id);
 extern void sub_0202BC60(s8 window_id);
 extern void HidePortraitBox(s8 window_id);
 extern void sub_0202F954(s8 window_id);
+extern bool8 IsDialogueBoxActive(s8 window_id);
+extern void CloseDialogueBox(s8 window_id);
+extern bool8 IsAdvancedMenuActive2(s8 window_id);
+extern void CloseAdvancedMenu(s8 window_id);
+extern bool8 PortraitBoxNeedsUpdate(s8 window_id);
+extern void ClosePortraitBox(s8 window_id);
+extern bool8 IsTextBoxActive(s8 window_id);
+extern void CloseTextBox(s8 window_id);
+extern bool8 IsSimpleMenuActive(s32 menu_id);
+extern void CloseSimpleMenu(s8 menu_id);
 
 u32 SentrySetupState(s32 param_0)
 {
@@ -146,4 +156,215 @@ void ov14_0238A514(void)
 
     if (!(SENTRY_DUTY_PTR->field_0x118 & 0x200) && SENTRY_DUTY_PTR->field_0x9 != -2)
         HidePortraitBox(SENTRY_DUTY_PTR->field_0x9);
+}
+
+u32 ov14_0238A6B0(void)
+{
+    s32 closed;
+
+    if (!(SENTRY_DUTY_PTR->field_0x118 & 2))
+    {
+        if (SENTRY_DUTY_PTR->field_0x1 == -2)
+            closed = 1;
+        else if (IsDialogueBoxActive(SENTRY_DUTY_PTR->field_0x1))
+            closed = 0;
+        else
+        {
+            CloseDialogueBox(SENTRY_DUTY_PTR->field_0x1);
+            SENTRY_DUTY_PTR->field_0x1 = -2;
+            closed = 1;
+        }
+
+        if (closed == 0)
+            return 0;
+    }
+
+    if (!(SENTRY_DUTY_PTR->field_0x118 & 1))
+    {
+        if (SENTRY_DUTY_PTR->field_0x0 == -2)
+            closed = 1;
+        else if (IsAdvancedMenuActive2(SENTRY_DUTY_PTR->field_0x0))
+            closed = 0;
+        else
+        {
+            CloseAdvancedMenu(SENTRY_DUTY_PTR->field_0x0);
+            SENTRY_DUTY_PTR->field_0x0 = -2;
+            closed = 1;
+        }
+
+        if (closed == 0)
+            return 0;
+    }
+
+    if (!(SENTRY_DUTY_PTR->field_0x118 & 4))
+    {
+        if (SENTRY_DUTY_PTR->field_0x2 == -2)
+            closed = 1;
+        else if (PortraitBoxNeedsUpdate(SENTRY_DUTY_PTR->field_0x2))
+            closed = 0;
+        else
+        {
+            ClosePortraitBox(SENTRY_DUTY_PTR->field_0x2);
+            SENTRY_DUTY_PTR->field_0x2 = -2;
+            closed = 1;
+        }
+
+        if (closed == 0)
+            return 0;
+    }
+
+    if (!(SENTRY_DUTY_PTR->field_0x118 & 8))
+    {
+        if (SENTRY_DUTY_PTR->field_0x3 == -2)
+            closed = 1;
+        else if (IsTextBoxActive(SENTRY_DUTY_PTR->field_0x3))
+            closed = 0;
+        else
+        {
+            CloseTextBox(SENTRY_DUTY_PTR->field_0x3);
+            SENTRY_DUTY_PTR->field_0x3 = -2;
+            closed = 1;
+        }
+
+        if (closed == 0)
+            return 0;
+    }
+
+    if (!(SENTRY_DUTY_PTR->field_0x118 & 0x10))
+    {
+        if (SENTRY_DUTY_PTR->field_0x4 == -2)
+            closed = 1;
+        else if (IsTextBoxActive(SENTRY_DUTY_PTR->field_0x4))
+            closed = 0;
+        else
+        {
+            CloseTextBox(SENTRY_DUTY_PTR->field_0x4);
+            SENTRY_DUTY_PTR->field_0x4 = -2;
+            closed = 1;
+        }
+
+        if (closed == 0)
+            return 0;
+    }
+
+    if (!(SENTRY_DUTY_PTR->field_0x118 & 0x20))
+    {
+        if (SENTRY_DUTY_PTR->field_0x5 == -2)
+            closed = 1;
+        else if (IsTextBoxActive(SENTRY_DUTY_PTR->field_0x5))
+            closed = 0;
+        else
+        {
+            CloseTextBox(SENTRY_DUTY_PTR->field_0x5);
+            SENTRY_DUTY_PTR->field_0x5 = -2;
+            closed = 1;
+        }
+
+        if (closed == 0)
+            return 0;
+    }
+
+    if (!(SENTRY_DUTY_PTR->field_0x118 & 0x40))
+    {
+        if (SENTRY_DUTY_PTR->field_0x6 == -2)
+            closed = 1;
+        else if (PortraitBoxNeedsUpdate(SENTRY_DUTY_PTR->field_0x6))
+            closed = 0;
+        else
+        {
+            ClosePortraitBox(SENTRY_DUTY_PTR->field_0x6);
+            SENTRY_DUTY_PTR->field_0x6 = -2;
+            closed = 1;
+        }
+
+        if (closed == 0)
+            return 0;
+    }
+
+    if (!(SENTRY_DUTY_PTR->field_0x118 & 0x80))
+    {
+        if (SENTRY_DUTY_PTR->field_0x7 == -2)
+            closed = 1;
+        else if (PortraitBoxNeedsUpdate(SENTRY_DUTY_PTR->field_0x7))
+            closed = 0;
+        else
+        {
+            ClosePortraitBox(SENTRY_DUTY_PTR->field_0x7);
+            SENTRY_DUTY_PTR->field_0x7 = -2;
+            closed = 1;
+        }
+
+        if (closed == 0)
+            return 0;
+    }
+
+    if (!(SENTRY_DUTY_PTR->field_0x118 & 0x100))
+    {
+        if (SENTRY_DUTY_PTR->field_0x8 == -2)
+            closed = 1;
+        else if (PortraitBoxNeedsUpdate(SENTRY_DUTY_PTR->field_0x8))
+            closed = 0;
+        else
+        {
+            ClosePortraitBox(SENTRY_DUTY_PTR->field_0x8);
+            SENTRY_DUTY_PTR->field_0x8 = -2;
+            closed = 1;
+        }
+
+        if (closed == 0)
+            return 0;
+    }
+
+    if (!(SENTRY_DUTY_PTR->field_0x118 & 0x200))
+    {
+        if (SENTRY_DUTY_PTR->field_0x9 == -2)
+            closed = 1;
+        else if (PortraitBoxNeedsUpdate(SENTRY_DUTY_PTR->field_0x9))
+            closed = 0;
+        else
+        {
+            ClosePortraitBox(SENTRY_DUTY_PTR->field_0x9);
+            SENTRY_DUTY_PTR->field_0x9 = -2;
+            closed = 1;
+        }
+
+        if (closed == 0)
+            return 0;
+    }
+
+    if (!(SENTRY_DUTY_PTR->field_0x118 & 0x40000000))
+    {
+        if (SENTRY_DUTY_PTR->field_0xa == -2)
+            closed = 1;
+        else if (IsSimpleMenuActive(SENTRY_DUTY_PTR->field_0xa))
+            closed = 0;
+        else
+        {
+            CloseSimpleMenu(SENTRY_DUTY_PTR->field_0xa);
+            SENTRY_DUTY_PTR->field_0xa = -2;
+            closed = 1;
+        }
+
+        if (closed == 0)
+            return 0;
+    }
+
+    if (!(SENTRY_DUTY_PTR->field_0x118 & 0x80000000))
+    {
+        if (SENTRY_DUTY_PTR->field_0xb == -2)
+            closed = 1;
+        else if (IsSimpleMenuActive(SENTRY_DUTY_PTR->field_0xb))
+            closed = 0;
+        else
+        {
+            CloseSimpleMenu(SENTRY_DUTY_PTR->field_0xb);
+            SENTRY_DUTY_PTR->field_0xb = -2;
+            closed = 1;
+        }
+
+        if (closed == 0)
+            return 0;
+    }
+
+    return 1;
 }

@@ -452,7 +452,6 @@ Overlay OVY_14
 {
 	After OVY_11
 	Object src/overlay_14_0238A514.o
-	Object asm/overlay_14_0238A6B0.o
 	Object src/overlay_14_0238ABA0.o
 	Object asm/overlay_14_0238ADFC.o
 	Object src/overlay_14_0238B6D8.o

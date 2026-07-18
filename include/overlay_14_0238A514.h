@@ -3,5 +3,6 @@
 
 u32 SentrySetupState(s32 param_0);
 void ov14_0238A514(void);
+u32 ov14_0238A6B0(void);
 
 #endif //PMDSKY_OVERLAY_14_0238A514_H
