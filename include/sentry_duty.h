@@ -104,7 +104,9 @@ struct sentry_duty {
     s32 field_0x3564;
     s32 field_0x3568;
     s32 field_0x356c;
-    u8 field_0x3570[0x300];
+    u8 field_0x3570[0x100];  // Buffer for the round number string
+    u8 field_0x3670[0x100];  // Buffer for the round count string
+    u8 field_0x3770[0x100];  // Buffer for the score string
     u8 field_0x3870;
     u8 field_0x3871;
     u8 field_0x3872[2];
