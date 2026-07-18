@@ -16,5 +16,6 @@ void SentryState8(void);
 void SentryState9(void);
 void SentryStateA(void);
 void SentryStateB(void);
+void SentryStateGenerateChoices(void);
 
 #endif //PMDSKY_SENTRY_DUTY_STATES_H
