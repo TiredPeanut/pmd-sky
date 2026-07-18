@@ -60,7 +60,8 @@ struct sentry_duty {
     s8 field_0xb;  // ID of a two-option menu
     s32 field_0xc;
     s32 field_0x10;
-    s32 field_0x14;
+    u16 field_0x14;
+    s16 field_0x16;
     s32 field_0x18;
     u8 field_0x1c[0x88];
     struct preprocess_args preprocessor_args;  // 0xA4: Args for the dialogue window strings
