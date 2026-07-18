@@ -459,7 +459,7 @@ Overlay OVY_14
 	Object src/sentry_duty_states.o
 	Object asm/overlay_14_0238C494.o
 	Object src/sentry_duty_states_1.o
-	Object asm/overlay_14_0238D828.o
+	Object asm/overlay_14_0238D96C.o
 }
 Overlay OVY_15
 {

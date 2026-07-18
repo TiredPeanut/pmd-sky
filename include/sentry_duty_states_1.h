@@ -23,5 +23,6 @@ void SentryState1E(void);
 void SentryState1F(void);
 void SentryState20(void);
 void SentryState21(void);
+void ov14_0238D828(u8* str, struct animation** anim_cursor, s32* x_pos, s32 y, s32 min_len);
 
 #endif //PMDSKY_SENTRY_DUTY_STATES_1_H

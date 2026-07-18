@@ -1,4 +1,5 @@
 #include "sentry_duty_states_1.h"
+#include "main_02089678.h"
 #include "overlay_14_0238ABA0.h"
 #include "sentry_duty_states.h"
 #include "util.h"
@@ -16,6 +17,9 @@ extern void ov11_022F6EFC(struct animation *anim);
 extern void ov11_022F7058(struct animation *anim);
 extern s32 SetSentryDutyGamePoints(s32 points);
 extern void InitPortraitParams(portrait_params *params);
+extern void SetAnimDataFields2(struct animation *anim, s32 arg1, s32 arg2);
+extern void AnimRelatedFunction__022F6F14(struct animation *anim, s32 *pos, s32 arg2);
+extern s32 GetLanguage(void);
 extern void SetPortraitLayout(portrait_params *params, u32 layout_idx);
 extern void SetPortraitOffset(portrait_params *params, s32 *offset);
 extern void ShowPortraitInPortraitBox(s8 window_id, portrait_params *params);
@@ -322,4 +326,70 @@ void SentryState21(void)
     }
 
     SentrySetExitingState();
+}
+
+void ov14_0238D828(u8* str, struct animation** anim_cursor, s32* x_pos, s32 y, s32 min_len)
+{
+    struct animation *anim;
+    s32 pos[2];
+    s32 len;
+    u8 c;
+    s16 val;
+#ifdef EUROPE
+    s32 lang;
+#endif
+
+    anim = *anim_cursor;
+    len = strlen((const char *)str);
+    if (len < min_len)
+        *x_pos = *x_pos + ((min_len - len) << 3);
+
+    pos[1] = y << 8;
+    while (*str != 0)
+    {
+        c = *str++;
+        pos[0] = *x_pos << 8;
+        if (c >= 0x30 && c <= 0x39)
+        {
+            val = (c - 0x2B) | 0x800;
+            *x_pos += 8;
+            SetAnimDataFields2(anim, val, 0);
+            AnimRelatedFunction__022F6F14(anim, pos, 0);
+            anim++;
+        }
+        else if (c == 0x2F)
+        {
+            *x_pos += 8;
+            SetAnimDataFields2(anim, 0x80F, 0);
+            AnimRelatedFunction__022F6F14(anim, pos, 0);
+            anim++;
+        }
+        else if (c == 0x50)
+        {
+            *x_pos += 8;
+#ifdef EUROPE
+            lang = GetLanguage();
+            if ((u8)(s8)(lang - 2) <= 1)
+            {
+                pos[0] += 0x400;
+                SetAnimDataFields2(anim, 0x811, 0);
+            }
+            else if (lang == 4)
+            {
+                pos[0] += 0x400;
+                SetAnimDataFields2(anim, 0x812, 0);
+            }
+            else
+            {
+                SetAnimDataFields2(anim, 0x810, 0);
+            }
+#else
+            SetAnimDataFields2(anim, 0x810, 0);
+#endif
+            AnimRelatedFunction__022F6F14(anim, pos, 0);
+            anim++;
+        }
+    }
+
+    *anim_cursor = anim;
 }

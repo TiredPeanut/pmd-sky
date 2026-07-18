@@ -1,6 +1,4 @@
 #pragma once
-.public AnimRelatedFunction__022F6F14
-.public GetLanguage
 .public SentryState0
 .public SentryState1
 .public SentryState10
@@ -35,5 +33,3 @@
 .public SentryStateFinalizeRound
 .public SentryStateGenerateChoices
 .public SentryStateGetUserChoice
-.public SetAnimDataFields2
-.public strlen
