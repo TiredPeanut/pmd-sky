@@ -1,4 +1,4 @@
-#include "overlay_14_0238ABA0.h"
+#include "sentry_duty_display.h"
 #include "main_0202593C.h"
 #include "sentry_duty.h"
 #include "util.h"

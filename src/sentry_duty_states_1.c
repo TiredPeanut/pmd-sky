@@ -1,6 +1,6 @@
 #include "sentry_duty_states_1.h"
 #include "main_02089678.h"
-#include "overlay_14_0238ABA0.h"
+#include "sentry_duty_display.h"
 #include "sentry_duty_states.h"
 #include "util.h"
 #include "window.h"

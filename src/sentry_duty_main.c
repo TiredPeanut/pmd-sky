@@ -1,5 +1,5 @@
-#include "overlay_14_0238B6D8.h"
-#include "overlay_14_0238ABA0.h"
+#include "sentry_duty_main.h"
+#include "sentry_duty_display.h"
 #include "sentry_duty.h"
 #include "util.h"
 

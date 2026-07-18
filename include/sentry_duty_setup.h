@@ -1,8 +1,8 @@
-#ifndef PMDSKY_OVERLAY_14_0238A514_H
-#define PMDSKY_OVERLAY_14_0238A514_H
+#ifndef PMDSKY_SENTRY_DUTY_SETUP_H
+#define PMDSKY_SENTRY_DUTY_SETUP_H
 
 u32 SentrySetupState(s32 param_0);
 void SentryHideDisabledWindows(void);
 u32 SentryCloseDisabledWindows(void);
 
-#endif //PMDSKY_OVERLAY_14_0238A514_H
+#endif //PMDSKY_SENTRY_DUTY_SETUP_H

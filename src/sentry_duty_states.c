@@ -2,7 +2,7 @@
 #include "common.h"
 #include "debug.h"
 #include "main_02054BE0.h"
-#include "overlay_14_0238ABA0.h"
+#include "sentry_duty_display.h"
 #include "util.h"
 #include "window.h"
 
