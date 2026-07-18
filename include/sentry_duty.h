@@ -93,12 +93,13 @@ struct sentry_duty {
     struct animation field_0x3098[4];
     struct animation field_0x33a8;
     struct animation field_0x346c;
-    u8 field_0x3530[4];
+    u8 field_0x3530;
+    u8 field_0x3531[3];
     s32 field_0x3534;
     s32 field_0x3538;
     s32 field_0x353c;
     s32 field_0x3540;
-    u8 field_0x3544[0x10];
+    s32 field_0x3544[4];
     s32 field_0x3554[4];  // Per-footprint-slot display state
     s32 field_0x3564;
     s32 field_0x3568;
@@ -124,7 +125,9 @@ struct sentry_duty {
     s32 field_0x38ac;  // Dialogue progress counter
     s32 field_0x38b0;
     s32 field_0x38b4;  // Countdown timer
-    u8 field_0x38b8[0x1C];
+    s32 field_0x38b8[6];
+    s16 field_0x38d0;  // Hero team member index
+    s16 field_0x38d2;  // Partner team member index
 };
 
 #endif //PMDSKY_SENTRY_DUTY_H

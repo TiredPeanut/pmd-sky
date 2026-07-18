@@ -1,0 +1,12 @@
+#pragma once
+.public CloseAdvancedMenu
+.public CloseDialogueBox
+.public ClosePortraitBox
+.public CloseSimpleMenu
+.public CloseTextBox
+.public IsAdvancedMenuActive2
+.public IsDialogueBoxActive
+.public IsSimpleMenuActive
+.public IsTextBoxActive
+.public PortraitBoxNeedsUpdate
+.public SENTRY_DUTY_PTR

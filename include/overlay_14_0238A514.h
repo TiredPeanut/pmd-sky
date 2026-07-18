@@ -1,0 +1,7 @@
+#ifndef PMDSKY_OVERLAY_14_0238A514_H
+#define PMDSKY_OVERLAY_14_0238A514_H
+
+u32 SentrySetupState(s32 param_0);
+void ov14_0238A514(void);
+
+#endif //PMDSKY_OVERLAY_14_0238A514_H

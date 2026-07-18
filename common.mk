@@ -253,6 +253,9 @@ $(LCF): $(LSF) $(LCF_TEMPLATE)
 	$(WINE) $(MAKELCF) $(MAKELCF_FLAGS) $^ $@
 ifeq ($(PROC),arm946e)
 	$(SED) -i '1i KEEP_SECTION\n{\n\t.exceptix\n}' $@
+# Keep functions that are only invoked through runtime data (e.g. script
+# opcodes), which the linker would otherwise dead-strip.
+	$(SED) -i '1i FORCE_ACTIVE\n{\n\tSentrySetupState\n}' $@
 else
 	$(SED) -i '/\} > check\.WORKRAM/a SDK_SUBPRIV_ARENA_LO = SDK_SUBPRIV_ARENA_LO;' $@
 endif
