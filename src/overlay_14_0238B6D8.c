@@ -6,18 +6,18 @@
 extern struct sentry_duty *SENTRY_DUTY_PTR;
 extern void (*SENTRY_DUTY_STATE_HANDLER_TABLE[])(void);
 extern u8 SENTRY_DEBUG_MENU_ITEMS[];
-extern u8 ov14_0238D988[];
-extern u8 ov14_0238D998[];
-extern u8 ov14_0238D9A8[];
-extern u8 ov14_0238D9B8[];
-extern u8 ov14_0238D9C8[];
-extern u8 ov14_0238D9D8[];
-extern u8 ov14_0238D9E8[];
-extern u8 ov14_0238D9F8[];
-extern u8 ov14_0238DA08[];
+extern u8 SENTRY_TOP_NAMES_BOX_PARAMS[];
+extern u8 SENTRY_BOTTOM_NAMES_BOX_PARAMS[];
+extern u8 SENTRY_DEBUG_MENU_PARAMS[];
+extern u8 SENTRY_DIALOGUE_BOX_PARAMS[];
+extern u8 SENTRY_SCORES_MENU_PARAMS[];
+extern u8 SENTRY_SCORES_MENU_PARAMS_MODE2[];
+extern u8 SENTRY_DEBUG_OPTION_MENU_PARAMS[];
+extern u8 SENTRY_FOOTPRINT_BOX_PARAMS[];
+extern u8 SENTRY_DEBUG_OPTION_MENU_STRING_IDS[];
 
-extern void ov14_0238A514(void);
-extern u32 ov14_0238A6B0(void);
+extern void SentryHideDisabledWindows(void);
+extern u32 SentryCloseDisabledWindows(void);
 extern void ov11_022F6EFC(struct animation *anim);
 extern void sub_02017B70(void);
 extern void MemFree(void *ptr);
@@ -45,11 +45,11 @@ extern void ReturnScriptMenuResult(s32 result);
 void SentrySetExitingState(void)
 {
     SENTRY_DUTY_PTR->window_flags = 0;
-    ov14_0238A514();
+    SentryHideDisabledWindows();
     SENTRY_DUTY_PTR->completion_state = SENTRY_COMPLETION_EXITING;
 }
 
-void ov14_0238B708(void)
+void FreeSentryDuty(void)
 {
     s32 i;
 
@@ -102,12 +102,12 @@ s32 SentryRunState(void)
                             sentry->game_state = sentry->next_game_state;
                             SENTRY_DUTY_STATE_HANDLER_TABLE[SENTRY_DUTY_PTR->game_state]();
                         }
-                        ov14_0238A514();
+                        SentryHideDisabledWindows();
                         SENTRY_DUTY_PTR->control_state = SENTRY_CTRL_STATE_TRANSITION;
                     }
                     break;
                 case SENTRY_CTRL_STATE_TRANSITION:
-                    if (ov14_0238A6B0() == 0)
+                    if (SentryCloseDisabledWindows() == 0)
                         break;
 
                     if ((SENTRY_DUTY_PTR->window_flags & 1) && SENTRY_DUTY_PTR->scores_menu_id == -2)
@@ -116,9 +116,9 @@ s32 SentryRunState(void)
                         SENTRY_DUTY_PTR->field_0x14 = 0x6DE + SENTRY_RUN_STATE_OFFSET;
                         SENTRY_DUTY_PTR->field_0x18 = 0x10;
                         if (SENTRY_DUTY_PTR->mode != 2)
-                            SENTRY_DUTY_PTR->scores_menu_id = CreateAdvancedMenu(ov14_0238D9C8, 0x04080800, &SENTRY_DUTY_PTR->field_0xc, ov14_0238ABA0, 5, 5);
+                            SENTRY_DUTY_PTR->scores_menu_id = CreateAdvancedMenu(SENTRY_SCORES_MENU_PARAMS, 0x04080800, &SENTRY_DUTY_PTR->field_0xc, SentryScoresMenuEntryFn, 5, 5);
                         else
-                            SENTRY_DUTY_PTR->scores_menu_id = CreateAdvancedMenu(ov14_0238D9D8, 0x04080800, &SENTRY_DUTY_PTR->field_0xc, ov14_0238ABA0, 5, 5);
+                            SENTRY_DUTY_PTR->scores_menu_id = CreateAdvancedMenu(SENTRY_SCORES_MENU_PARAMS_MODE2, 0x04080800, &SENTRY_DUTY_PTR->field_0xc, SentryScoresMenuEntryFn, 5, 5);
                     }
 
                     if (SENTRY_DUTY_PTR->window_flags & 2)
@@ -127,7 +127,7 @@ s32 SentryRunState(void)
                         SENTRY_DUTY_PTR->dialogue_args.speaker_id = 0x32;
                         flags = 0x3018;
                         if (SENTRY_DUTY_PTR->dialogue_box_id == -2)
-                            SENTRY_DUTY_PTR->dialogue_box_id = CreateDialogueBox(ov14_0238D9B8);
+                            SENTRY_DUTY_PTR->dialogue_box_id = CreateDialogueBox(SENTRY_DIALOGUE_BOX_PARAMS);
 
                         ShowDialogueBox(SENTRY_DUTY_PTR->dialogue_box_id);
                         switch (SENTRY_DUTY_PTR->game_state)
@@ -286,13 +286,13 @@ s32 SentryRunState(void)
                     }
 
                     if ((SENTRY_DUTY_PTR->window_flags & 8) && SENTRY_DUTY_PTR->footprint_box_id == -2)
-                        SENTRY_DUTY_PTR->footprint_box_id = CreateTextBox(ov14_0238D9F8, ov14_0238ACEC);
+                        SENTRY_DUTY_PTR->footprint_box_id = CreateTextBox(SENTRY_FOOTPRINT_BOX_PARAMS, SentryClearWindow);
 
                     if ((SENTRY_DUTY_PTR->window_flags & 0x10) && SENTRY_DUTY_PTR->top_names_box_id == -2)
-                        SENTRY_DUTY_PTR->top_names_box_id = CreateTextBox(ov14_0238D988, ov14_0238AD04);
+                        SENTRY_DUTY_PTR->top_names_box_id = CreateTextBox(SENTRY_TOP_NAMES_BOX_PARAMS, SentryDrawChoiceNames);
 
                     if ((SENTRY_DUTY_PTR->window_flags & 0x20) && SENTRY_DUTY_PTR->bottom_names_box_id == -2)
-                        SENTRY_DUTY_PTR->bottom_names_box_id = CreateTextBox(ov14_0238D998, ov14_0238AD04);
+                        SENTRY_DUTY_PTR->bottom_names_box_id = CreateTextBox(SENTRY_BOTTOM_NAMES_BOX_PARAMS, SentryDrawChoiceNames);
 
                     if ((SENTRY_DUTY_PTR->window_flags & 0x40) && SENTRY_DUTY_PTR->choice_portrait_ids[0] == -2)
                         SENTRY_DUTY_PTR->choice_portrait_ids[0] = CreatePortraitBox(0, 3, 0);
@@ -307,10 +307,10 @@ s32 SentryRunState(void)
                         SENTRY_DUTY_PTR->choice_portrait_ids[3] = CreatePortraitBox(0, 6, 0);
 
                     if ((SENTRY_DUTY_PTR->window_flags & 0x40000000) && SENTRY_DUTY_PTR->debug_menu_id == -2)
-                        SENTRY_DUTY_PTR->debug_menu_id = CreateSimpleMenuFromStringIds(ov14_0238D9A8, 0x13, 0, SENTRY_DEBUG_MENU_ITEMS, 8);
+                        SENTRY_DUTY_PTR->debug_menu_id = CreateSimpleMenuFromStringIds(SENTRY_DEBUG_MENU_PARAMS, 0x13, 0, SENTRY_DEBUG_MENU_ITEMS, 8);
 
                     if ((SENTRY_DUTY_PTR->window_flags & 0x80000000) && SENTRY_DUTY_PTR->debug_option_menu_id == -2)
-                        SENTRY_DUTY_PTR->debug_option_menu_id = CreateSimpleMenuFromStringIds(ov14_0238D9E8, 0x13, 0, ov14_0238DA08, 2);
+                        SENTRY_DUTY_PTR->debug_option_menu_id = CreateSimpleMenuFromStringIds(SENTRY_DEBUG_OPTION_MENU_PARAMS, 0x13, 0, SENTRY_DEBUG_OPTION_MENU_STRING_IDS, 2);
 
                     SENTRY_DUTY_PTR->control_state = SENTRY_CTRL_POST_TRANSITION;
                     break;
@@ -329,13 +329,13 @@ s32 SentryRunState(void)
             }
             return 1;
         case SENTRY_COMPLETION_EXITING:
-            if (ov14_0238A6B0() != 0)
+            if (SentryCloseDisabledWindows() != 0)
                 SENTRY_DUTY_PTR->completion_state = SENTRY_COMPLETION_FINALIZING;
             break;
         case SENTRY_COMPLETION_FINALIZING:
             SENTRY_DUTY_PTR->completion_state = SENTRY_COMPLETION_DONE;
             ReturnScriptMenuResult(SENTRY_DUTY_PTR->exit_result);
-            ov14_0238B708();
+            FreeSentryDuty();
             return 4;
         case SENTRY_COMPLETION_DONE:
             break;

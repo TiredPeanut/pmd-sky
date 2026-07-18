@@ -236,7 +236,7 @@
 .public ov11_02316168
 .public ov11_02316168
 .public ov11_023163E0
-.public ov14_0238B708
+.public FreeSentryDuty
 .public SentryRunState
 .public DuskullBankEntryPoint
 .public DuskullBankDestructor
@@ -1879,7 +1879,7 @@ SWAP_SHOP_CLUMSET_THREE_STAR_STR:
 	.global OVERLAY11_OVERLAY_LOAD_TABLE
 OVERLAY11_OVERLAY_LOAD_TABLE:
 	.byte 0x12, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-	.word ov14_0238B708
+	.word FreeSentryDuty
 	.word SentryRunState
 	.global ov11_0232307C
 ov11_0232307C:

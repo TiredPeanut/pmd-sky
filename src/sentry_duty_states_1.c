@@ -6,7 +6,7 @@
 #include "window.h"
 
 extern struct sentry_duty *SENTRY_DUTY_PTR;
-extern s32 ov14_0238D970[];
+extern s32 SENTRY_PORTRAIT_OFFSETS[];
 
 extern void ClearWindow(s8 window_id);
 extern void PlaySeByIdVolumeWrapper(s32 se_id);
@@ -39,7 +39,7 @@ void SentryStateFinalizeRound(void)
     SENTRY_DUTY_PTR->round++;
     SENTRY_DUTY_PTR->frame_counter = 0;
     SENTRY_DUTY_PTR->timed_out = 0;
-    ov14_0238AC04(0);
+    SentryUpdateTimerBar(0);
     if (answered != 0)
     {
         ov11_022F7058(&SENTRY_DUTY_PTR->footprint_anim);
@@ -49,8 +49,8 @@ void SentryStateFinalizeRound(void)
         ov11_022F6EFC(&SENTRY_DUTY_PTR->cursor_anim);
     }
 
-    offset_x = ov14_0238D970[2];
-    offset_y = ov14_0238D970[3];
+    offset_x = SENTRY_PORTRAIT_OFFSETS[2];
+    offset_y = SENTRY_PORTRAIT_OFFSETS[3];
     offset[0] = offset_x;
     offset[1] = offset_y;
     for (i = 0; i < 4; i++)
@@ -328,7 +328,7 @@ void SentryState21(void)
     SentrySetExitingState();
 }
 
-void ov14_0238D828(u8* str, struct animation** anim_cursor, s32* x_pos, s32 y, s32 min_len)
+void SentryDrawNumberString(u8* str, struct animation** anim_cursor, s32* x_pos, s32 y, s32 min_len)
 {
     struct animation *anim;
     s32 pos[2];

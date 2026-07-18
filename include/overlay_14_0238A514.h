@@ -2,7 +2,7 @@
 #define PMDSKY_OVERLAY_14_0238A514_H
 
 u32 SentrySetupState(s32 param_0);
-void ov14_0238A514(void);
-u32 ov14_0238A6B0(void);
+void SentryHideDisabledWindows(void);
+u32 SentryCloseDisabledWindows(void);
 
 #endif //PMDSKY_OVERLAY_14_0238A514_H

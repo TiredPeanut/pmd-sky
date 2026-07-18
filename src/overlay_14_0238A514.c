@@ -8,7 +8,7 @@ extern void *MemAlloc(u32 size, u32 flags);
 extern void InitPreprocessorArgs(struct preprocess_args *args);
 extern s32 GetHeroMemberIdx(void);
 extern s32 GetPartnerMemberIdx(void);
-extern void ov14_0238AC04(s32 arg0);
+extern void SentryUpdateTimerBar(s32 arg0);
 extern void LoadObjectAnimData(struct animation *anim, s32 anim_id, u32 flags);
 extern void InitAnimDataFromOtherAnimDataVeneer(struct animation *dst, struct animation *src);
 extern void SetAnimDataFields2(struct animation *anim, s32 arg1, s32 arg2);
@@ -86,7 +86,7 @@ u32 SentrySetupState(s32 param_0)
     SENTRY_DUTY_PTR->choice_portrait_ids[3] = -2;
     SENTRY_DUTY_PTR->debug_menu_id = -2;
     SENTRY_DUTY_PTR->debug_option_menu_id = -2;
-    ov14_0238AC04(0);
+    SentryUpdateTimerBar(0);
 #ifdef EUROPE
     LoadObjectAnimData(&SENTRY_DUTY_PTR->marker_anim_data, 0xBD, 0x8100000);
     LoadObjectAnimData(&SENTRY_DUTY_PTR->hud_anim_data, 0xDD, 0x88080000);
@@ -125,7 +125,7 @@ u32 SentrySetupState(s32 param_0)
     return 1;
 }
 
-void ov14_0238A514(void)
+void SentryHideDisabledWindows(void)
 {
     if (!(SENTRY_DUTY_PTR->window_flags & 2) && SENTRY_DUTY_PTR->dialogue_box_id != -2)
         sub_0202F334(SENTRY_DUTY_PTR->dialogue_box_id);
@@ -158,7 +158,7 @@ void ov14_0238A514(void)
         HidePortraitBox(SENTRY_DUTY_PTR->choice_portrait_ids[3]);
 }
 
-u32 ov14_0238A6B0(void)
+u32 SentryCloseDisabledWindows(void)
 {
     s32 closed;
 

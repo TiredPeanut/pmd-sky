@@ -8,10 +8,10 @@
 
 extern struct sentry_duty *SENTRY_DUTY_PTR;
 extern s16 SENTRY_DUTY_MONSTER_IDS[];
-extern s32 ov14_0238D970[];
-extern u8 ov14_0238DB2C[];
-extern u8 ov14_0238DB44[];
-extern u8 ov14_0238DB58[];
+extern s32 SENTRY_PORTRAIT_OFFSETS[];
+extern u8 SENTRY_DEBUG_STR_HEADER[];
+extern u8 SENTRY_DEBUG_STR_FOOTPRINT_NO[];
+extern u8 SENTRY_DEBUG_STR_ANSWER[];
 
 extern bool8 IsSimpleMenuActive(s32 menu_id);
 extern s32 GetSimpleMenuResult__0202B870(s32 menu_id);
@@ -35,9 +35,9 @@ extern void GetPressedButtons(s32 param, u16 *buttons);
 extern bool8 IsTouchScreenNotOff(void);
 extern void InitPortraitParamsWithMonsterId(portrait_params *params, s16 monster_id);
 extern void SetPortraitEmotion(portrait_params *params, u32 emotion);
-extern s32 ov14_0238DA20[][2];
-extern s32 ov14_0238DA80[][2];
-extern u8 ov14_0238D96C[];
+extern s32 SENTRY_CHOICE_TOUCH_POSITIONS[][2];
+extern s32 SENTRY_CHOICE_PORTRAIT_OFFSETS[][2];
+extern u8 SENTRY_CHOICE_PORTRAIT_LAYOUTS[];
 
 // State of the stylus when it was released (see GetReleasedStylus)
 struct released_stylus {
@@ -194,7 +194,7 @@ void SentryStateGenerateChoices(void)
     SENTRY_DUTY_PTR->hint_shown[3] = 0;
     SENTRY_DUTY_PTR->timed_out = 0;
     SENTRY_DUTY_PTR->frame_counter = 0;
-    ov14_0238AC04(0);
+    SentryUpdateTimerBar(0);
     SENTRY_DUTY_PTR->right_answer_slot = RandRange(0, 4);
     while (TRUE)
     {
@@ -255,9 +255,9 @@ void SentryStateGenerateChoices(void)
         SENTRY_DUTY_PTR->choices[i] = monster_id;
     }
 
-    Debug_Print0(ov14_0238DB2C);
-    Debug_Print0(ov14_0238DB44, SENTRY_DUTY_PTR->right_answer_data_idx);
-    Debug_Print0(ov14_0238DB58, SENTRY_DUTY_PTR->right_answer_slot);
+    Debug_Print0(SENTRY_DEBUG_STR_HEADER);
+    Debug_Print0(SENTRY_DEBUG_STR_FOOTPRINT_NO, SENTRY_DUTY_PTR->right_answer_data_idx);
+    Debug_Print0(SENTRY_DEBUG_STR_ANSWER, SENTRY_DUTY_PTR->right_answer_slot);
     ov11_022F6FE0(&SENTRY_DUTY_PTR->footprint_anim, (s16)(SENTRY_DUTY_PTR->right_answer_data_idx + 1), 0x880A0000);
     SetAnimDataFields2(&SENTRY_DUTY_PTR->footprint_anim, 0x1001, 0);
     InitAnimDataFromOtherAnimDataVeneer(&SENTRY_DUTY_PTR->footprint_overlay_anim, &SENTRY_DUTY_PTR->hud_anim_data);
@@ -268,8 +268,8 @@ void SentryStateGenerateChoices(void)
     SetAnimDataFields2(&SENTRY_DUTY_PTR->cursor_anim, 0x800, 0);
     SENTRY_DUTY_PTR->choice_footprints_state = 0;
     SENTRY_DUTY_PTR->choice_footprints_next_state = 0;
-    offset_x = ov14_0238D970[zero];
-    offset_y = ov14_0238D970[1];
+    offset_x = SENTRY_PORTRAIT_OFFSETS[zero];
+    offset_y = SENTRY_PORTRAIT_OFFSETS[1];
     offset[0] = offset_x;
     offset[1] = offset_y;
     for (i = zero; i < 4; i++)
@@ -308,8 +308,8 @@ void SentryStateGenerateChoices(void)
         }
     }
 
-    ov14_0238AD04(SENTRY_DUTY_PTR->top_names_box_id);
-    ov14_0238AD04(SENTRY_DUTY_PTR->bottom_names_box_id);
+    SentryDrawChoiceNames(SENTRY_DUTY_PTR->top_names_box_id);
+    SentryDrawChoiceNames(SENTRY_DUTY_PTR->bottom_names_box_id);
     if (SENTRY_DUTY_PTR->footprint_box_id != -2)
         ClearWindow(SENTRY_DUTY_PTR->footprint_box_id);
 
@@ -332,7 +332,7 @@ void SentryStateGetUserChoice(void)
     SENTRY_DUTY_PTR->frame_counter++;
     SENTRY_DUTY_PTR->round_points--;
     seconds = SENTRY_DUTY_PTR->frame_counter / 0x3C;
-    ov14_0238AC04(seconds % 0x10);
+    SentryUpdateTimerBar(seconds % 0x10);
     if (SENTRY_DUTY_PTR->frame_counter / 0x3C < 0x10)
     {
         touched = 0;
@@ -345,8 +345,8 @@ void SentryStateGetUserChoice(void)
             {
                 for (i = 0; i < 4; i++)
                 {
-                    if (stylus.x >= ov14_0238DA20[i][0] - 0x38 && stylus.x <= ov14_0238DA20[i][0] + 0x40
-                        && stylus.y >= ov14_0238DA20[i][1] - 0x20 && stylus.y <= ov14_0238DA20[i][1] + 0x28)
+                    if (stylus.x >= SENTRY_CHOICE_TOUCH_POSITIONS[i][0] - 0x38 && stylus.x <= SENTRY_CHOICE_TOUCH_POSITIONS[i][0] + 0x40
+                        && stylus.y >= SENTRY_CHOICE_TOUCH_POSITIONS[i][1] - 0x20 && stylus.y <= SENTRY_CHOICE_TOUCH_POSITIONS[i][1] + 0x28)
                     {
                         SENTRY_DUTY_PTR->selected_slot = i;
                         touched = 1;
@@ -454,8 +454,8 @@ void SentryStateGetUserChoice(void)
             {
                 InitPortraitParams(&params);
                 InitPortraitParamsWithMonsterId(&params, SENTRY_DUTY_PTR->choices[i]);
-                SetPortraitLayout(&params, ov14_0238D96C[i]);
-                SetPortraitOffset(&params, ov14_0238DA80[i]);
+                SetPortraitLayout(&params, SENTRY_CHOICE_PORTRAIT_LAYOUTS[i]);
+                SetPortraitOffset(&params, SENTRY_CHOICE_PORTRAIT_OFFSETS[i]);
                 SetPortraitEmotion(&params, 0);
                 switch (i)
                 {
@@ -481,7 +481,7 @@ void SentryStateGetUserChoice(void)
     {
         if (SENTRY_DUTY_PTR->hint_shown[1] == 0)
         {
-            ov14_0238AC40();
+            SentryShowFootprintHint();
             PlaySeByIdVolumeWrapper(0x2C06);
             SENTRY_DUTY_PTR->hint_shown[1] = 1;
         }
@@ -491,7 +491,7 @@ void SentryStateGetUserChoice(void)
     {
         if (SENTRY_DUTY_PTR->hint_shown[2] == 0)
         {
-            ov14_0238AC40();
+            SentryShowFootprintHint();
             PlaySeByIdVolumeWrapper(0x2C06);
             SENTRY_DUTY_PTR->hint_shown[2] = 1;
         }
