@@ -58,8 +58,8 @@ void SentrySetStateIntermediate(s32 next_state)
 
 void SentryState0(void)
 {
-    SENTRY_DUTY_PTR->window_flags = 0x80000000;
-    SENTRY_DUTY_PTR->next_game_state = 1;
+    SENTRY_DUTY_PTR->window_flags = SENTRY_WINDOW_DEBUG_OPTION_MENU;
+    SENTRY_DUTY_PTR->next_game_state = SENTRY_STATE_DEBUG_START_CHOICE;
 }
 
 void SentryState1(void)
@@ -71,18 +71,18 @@ void SentryState1(void)
     {
         case 8:
         default:
-            SentrySetStateIntermediate(2);
+            SentrySetStateIntermediate(SENTRY_STATE_DEBUG_RESULT);
             break;
         case 9:
-            SentrySetStateIntermediate(6);
+            SentrySetStateIntermediate(SENTRY_STATE_INSTRUCTIONS);
             break;
     }
 }
 
 void SentryState2(void)
 {
-    SENTRY_DUTY_PTR->window_flags = 0x40000000;
-    SENTRY_DUTY_PTR->next_game_state = 3;
+    SENTRY_DUTY_PTR->window_flags = SENTRY_WINDOW_DEBUG_MENU;
+    SENTRY_DUTY_PTR->next_game_state = SENTRY_STATE_DEBUG_RESULT_CHOICE;
 }
 
 void SentryState3(void)
@@ -125,8 +125,8 @@ void SentryState3(void)
 
 void SentryState4(void)
 {
-    SENTRY_DUTY_PTR->window_flags = 3;
-    SENTRY_DUTY_PTR->next_game_state = 5;
+    SENTRY_DUTY_PTR->window_flags = SENTRY_WINDOW_SCORES_MENU | SENTRY_WINDOW_DIALOGUE_BOX;
+    SENTRY_DUTY_PTR->next_game_state = SENTRY_STATE_EXIT;
 }
 
 void SentryStateExit(void)
@@ -136,35 +136,35 @@ void SentryStateExit(void)
 
 void SentryState6(void)
 {
-    SENTRY_DUTY_PTR->window_flags = 3;
-    SENTRY_DUTY_PTR->next_game_state = 7;
+    SENTRY_DUTY_PTR->window_flags = SENTRY_WINDOW_SCORES_MENU | SENTRY_WINDOW_DIALOGUE_BOX;
+    SENTRY_DUTY_PTR->next_game_state = SENTRY_STATE_INSTRUCTIONS_2;
 }
 
 void SentryState7(void)
 {
-    SENTRY_DUTY_PTR->next_game_state = 8;
+    SENTRY_DUTY_PTR->next_game_state = SENTRY_STATE_HERE_COMES_FIRST;
 }
 
 void SentryState8(void)
 {
-    SENTRY_DUTY_PTR->window_flags = 3;
-    SENTRY_DUTY_PTR->next_game_state = 9;
+    SENTRY_DUTY_PTR->window_flags = SENTRY_WINDOW_SCORES_MENU | SENTRY_WINDOW_DIALOGUE_BOX;
+    SENTRY_DUTY_PTR->next_game_state = SENTRY_STATE_START_ROUND;
 }
 
 void SentryState9(void)
 {
-    SENTRY_DUTY_PTR->window_flags = 2;
-    SENTRY_DUTY_PTR->next_game_state = 0xC;
+    SENTRY_DUTY_PTR->window_flags = SENTRY_WINDOW_DIALOGUE_BOX;
+    SENTRY_DUTY_PTR->next_game_state = SENTRY_STATE_GENERATE_CHOICES;
 }
 
 void SentryStateA(void)
 {
-    SENTRY_DUTY_PTR->next_game_state = 0xB;
+    SENTRY_DUTY_PTR->next_game_state = SENTRY_STATE_HERE_COMES_2;
 }
 
 void SentryStateB(void)
 {
-    SENTRY_DUTY_PTR->next_game_state = 0xC;
+    SENTRY_DUTY_PTR->next_game_state = SENTRY_STATE_GENERATE_CHOICES;
 }
 
 void SentryStateGenerateChoices(void)
@@ -182,7 +182,10 @@ void SentryStateGenerateChoices(void)
     s16 j;
     s32 rounds;
 
-    SENTRY_DUTY_PTR->window_flags = 0x3FA;
+    SENTRY_DUTY_PTR->window_flags = SENTRY_WINDOW_DIALOGUE_BOX | SENTRY_WINDOW_FOOTPRINT_BOX
+        | SENTRY_WINDOW_TOP_NAMES_BOX | SENTRY_WINDOW_BOTTOM_NAMES_BOX
+        | SENTRY_WINDOW_CHOICE_PORTRAIT_0 | SENTRY_WINDOW_CHOICE_PORTRAIT_1
+        | SENTRY_WINDOW_CHOICE_PORTRAIT_2 | SENTRY_WINDOW_CHOICE_PORTRAIT_3;
     hero = GetHero();
     partner = GetPartner();
     SENTRY_DUTY_PTR->selected_slot = 0;
@@ -205,7 +208,7 @@ void SentryStateGenerateChoices(void)
             continue;
 
         if (SENTRY_DUTY_PTR->choices[SENTRY_DUTY_PTR->right_answer_slot] == FemaleToMaleForm(partner->id)
-            || SENTRY_DUTY_PTR->choices[SENTRY_DUTY_PTR->right_answer_slot] == 0x119)
+            || SENTRY_DUTY_PTR->choices[SENTRY_DUTY_PTR->right_answer_slot] == MONSTER_GROVYLE)
             continue;
 
         rounds = SENTRY_DUTY_PTR->round;
@@ -234,7 +237,7 @@ void SentryStateGenerateChoices(void)
             if (monster_id == FemaleToMaleForm(hero->id))
                 continue;
 
-            if (monster_id == FemaleToMaleForm(partner->id) || monster_id == 0x119)
+            if (monster_id == FemaleToMaleForm(partner->id) || monster_id == MONSTER_GROVYLE)
                 continue;
 
             if (monster_id == SENTRY_DUTY_PTR->choices[SENTRY_DUTY_PTR->right_answer_slot])
@@ -316,7 +319,7 @@ void SentryStateGenerateChoices(void)
     SENTRY_DUTY_PTR->round_active = 1;
     PlaySeByIdVolumeWrapper(0x2C04);
     SENTRY_DUTY_PTR->cursor_next_state = 2;
-    SENTRY_DUTY_PTR->next_game_state = 0xD;
+    SENTRY_DUTY_PTR->next_game_state = SENTRY_STATE_GET_USER_CHOICE;
 }
 
 void SentryStateGetUserChoice(void)
@@ -374,7 +377,7 @@ void SentryStateGetUserChoice(void)
             if (SENTRY_DUTY_PTR->selected_slot == SENTRY_DUTY_PTR->right_answer_slot)
             {
                 SENTRY_DUTY_PTR->cursor_next_state = 5;
-                SentrySetStateIntermediate(0x19);
+                SentrySetStateIntermediate(SENTRY_STATE_CORRECT_ANSWER);
             }
             else if (SENTRY_DUTY_PTR->slot_mark_next_states[SENTRY_DUTY_PTR->selected_slot] == 3)
             {
@@ -384,12 +387,12 @@ void SentryStateGetUserChoice(void)
             {
                 SENTRY_DUTY_PTR->cursor_next_state = 4;
                 SENTRY_DUTY_PTR->slot_mark_next_states[SENTRY_DUTY_PTR->selected_slot] = 3;
-                SentrySetStateIntermediate(0x10);
+                SentrySetStateIntermediate(SENTRY_STATE_WRONG_ANSWER);
             }
             else
             {
                 SENTRY_DUTY_PTR->cursor_next_state = 5;
-                SentrySetStateIntermediate(0x14);
+                SentrySetStateIntermediate(SENTRY_STATE_OUT_OF_TRIES);
             }
         }
         else
@@ -440,7 +443,7 @@ void SentryStateGetUserChoice(void)
     {
         SENTRY_DUTY_PTR->timed_out = 1;
         SENTRY_DUTY_PTR->cursor_next_state = 2;
-        SentrySetStateIntermediate(0x12);
+        SentrySetStateIntermediate(SENTRY_STATE_TIME_UP);
     }
 
     while (seconds >= 2)

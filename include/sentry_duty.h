@@ -29,6 +29,61 @@ enum sentry_control_state {
     SENTRY_CTRL_INTERMEDIATE_TRANSITION = 3,
 };
 
+// Values for sentry_duty::game_state and next_game_state. The state handlers are
+// listed in SENTRY_DUTY_STATE_HANDLER_TABLE in this order; states 0-3 are only
+// reachable through the debug menus. Most states come in pairs: the first shows
+// dialogue/UI for the step and the second advances once it has been seen.
+enum sentry_game_state {
+    SENTRY_STATE_DEBUG_START = 0,           // Opens the two-option debug menu
+    SENTRY_STATE_DEBUG_START_CHOICE = 1,
+    SENTRY_STATE_DEBUG_RESULT = 2,          // Opens the debug menu for picking an exit result
+    SENTRY_STATE_DEBUG_RESULT_CHOICE = 3,
+    SENTRY_STATE_SCORES_MODE2 = 4,          // Mode-2 entry point: scores menu, no music
+    SENTRY_STATE_EXIT = 5,
+    SENTRY_STATE_INSTRUCTIONS = 6,          // Normal entry point: Loudred explains the rules
+    SENTRY_STATE_INSTRUCTIONS_2 = 7,
+    SENTRY_STATE_HERE_COMES_FIRST = 8,      // "Someone's coming" before the first round
+    SENTRY_STATE_START_ROUND = 9,           // Closes the intro windows, starts the round
+    SENTRY_STATE_HERE_COMES = 0xA,          // "Someone's coming" before later rounds
+    SENTRY_STATE_HERE_COMES_2 = 0xB,
+    SENTRY_STATE_GENERATE_CHOICES = 0xC,
+    SENTRY_STATE_GET_USER_CHOICE = 0xD,
+    SENTRY_STATE_FINALIZE_ROUND = 0xE,
+    SENTRY_STATE_NEXT_ROUND = 0xF,
+    SENTRY_STATE_WRONG_ANSWER = 0x10,       // Wrong answer with tries left
+    SENTRY_STATE_WRONG_ANSWER_2 = 0x11,
+    SENTRY_STATE_TIME_UP = 0x12,
+    SENTRY_STATE_TIME_UP_2 = 0x13,
+    SENTRY_STATE_OUT_OF_TRIES = 0x14,
+    SENTRY_STATE_OUT_OF_TRIES_2 = 0x15,
+    SENTRY_STATE_HIDE_FOOTPRINT = 0x16,     // Scrolls the footprint away after a failed round
+    SENTRY_STATE_REVEAL_ANSWER = 0x17,      // Marks the right answer (and the wrong pick)
+    SENTRY_STATE_REVEAL_ANSWER_2 = 0x18,
+    SENTRY_STATE_CORRECT_ANSWER = 0x19,
+    SENTRY_STATE_CORRECT_ANSWER_2 = 0x1A,
+    SENTRY_STATE_FINALIZE_POINTS = 0x1B,    // Scrolls the footprint away, awards round points
+    SENTRY_STATE_SHOW_POINTS = 0x1C,
+    SENTRY_STATE_SHOW_POINTS_2 = 0x1D,
+    SENTRY_STATE_ENDING_MODE1 = 0x1E,       // Ending dialogue when mode == 1
+    SENTRY_STATE_ENDING_MODE1_2 = 0x1F,
+    SENTRY_STATE_ENDING_MODE0 = 0x20,       // Ending dialogue when mode == 0
+    SENTRY_STATE_ENDING_MODE0_2 = 0x21,
+};
+
+// Bits for sentry_duty::window_flags, matching the window ID fields
+#define SENTRY_WINDOW_SCORES_MENU 0x1
+#define SENTRY_WINDOW_DIALOGUE_BOX 0x2
+#define SENTRY_WINDOW_DIGLETT_PORTRAIT 0x4
+#define SENTRY_WINDOW_FOOTPRINT_BOX 0x8
+#define SENTRY_WINDOW_TOP_NAMES_BOX 0x10
+#define SENTRY_WINDOW_BOTTOM_NAMES_BOX 0x20
+#define SENTRY_WINDOW_CHOICE_PORTRAIT_0 0x40
+#define SENTRY_WINDOW_CHOICE_PORTRAIT_1 0x80
+#define SENTRY_WINDOW_CHOICE_PORTRAIT_2 0x100
+#define SENTRY_WINDOW_CHOICE_PORTRAIT_3 0x200
+#define SENTRY_WINDOW_DEBUG_MENU 0x40000000
+#define SENTRY_WINDOW_DEBUG_OPTION_MENU 0x80000000
+
 // 0xC4-byte animation state used by the ground engine (struct animation in pmdsky-debug)
 struct animation {
     u8 data[0xC4];

@@ -1,5 +1,6 @@
 #include "sentry_duty_main.h"
 #include "sentry_duty_display.h"
+#include "enums.h"
 #include "sentry_duty.h"
 #include "util.h"
 
@@ -110,7 +111,7 @@ s32 SentryRunState(void)
                     if (SentryCloseDisabledWindows() == 0)
                         break;
 
-                    if ((SENTRY_DUTY_PTR->window_flags & 1) && SENTRY_DUTY_PTR->scores_menu_id == -2)
+                    if ((SENTRY_DUTY_PTR->window_flags & SENTRY_WINDOW_SCORES_MENU) && SENTRY_DUTY_PTR->scores_menu_id == -2)
                     {
                         SENTRY_DUTY_PTR->field_0xc = 0;
                         SENTRY_DUTY_PTR->field_0x14 = 0x6DE + SENTRY_RUN_STATE_OFFSET;
@@ -121,10 +122,10 @@ s32 SentryRunState(void)
                             SENTRY_DUTY_PTR->scores_menu_id = CreateAdvancedMenu(SENTRY_SCORES_MENU_PARAMS_MODE2, 0x04080800, &SENTRY_DUTY_PTR->field_0xc, SentryScoresMenuEntryFn, 5, 5);
                     }
 
-                    if (SENTRY_DUTY_PTR->window_flags & 2)
+                    if (SENTRY_DUTY_PTR->window_flags & SENTRY_WINDOW_DIALOGUE_BOX)
                     {
                         str_id = SENTRY_DUTY_PTR->prev_dialogue_str_id;
-                        SENTRY_DUTY_PTR->dialogue_args.speaker_id = 0x32;
+                        SENTRY_DUTY_PTR->dialogue_args.speaker_id = MONSTER_DIGLETT;
                         flags = 0x3018;
                         if (SENTRY_DUTY_PTR->dialogue_box_id == -2)
                             SENTRY_DUTY_PTR->dialogue_box_id = CreateDialogueBox(SENTRY_DIALOGUE_BOX_PARAMS);
@@ -132,45 +133,45 @@ s32 SentryRunState(void)
                         ShowDialogueBox(SENTRY_DUTY_PTR->dialogue_box_id);
                         switch (SENTRY_DUTY_PTR->game_state)
                         {
-                            case 0:
+                            case SENTRY_STATE_DEBUG_START:
                                 break;
-                            case 4:
-                            case 5:
-                                SENTRY_DUTY_PTR->dialogue_args.speaker_id = 0x142;
+                            case SENTRY_STATE_SCORES_MODE2:
+                            case SENTRY_STATE_EXIT:
+                                SENTRY_DUTY_PTR->dialogue_args.speaker_id = MONSTER_LOUDRED;
                                 str_id = 0x6D9 + SENTRY_RUN_STATE_OFFSET;
                                 flags = 0x3018;
                                 break;
-                            case 6:
-                            case 7:
-                                SENTRY_DUTY_PTR->dialogue_args.speaker_id = 0x142;
+                            case SENTRY_STATE_INSTRUCTIONS:
+                            case SENTRY_STATE_INSTRUCTIONS_2:
+                                SENTRY_DUTY_PTR->dialogue_args.speaker_id = MONSTER_LOUDRED;
                                 str_id = 0x6D8 + SENTRY_RUN_STATE_OFFSET;
                                 flags = 0x3018;
                                 break;
-                            case 8:
-                            case 10:
-                                SENTRY_DUTY_PTR->dialogue_args.speaker_id = 0x142;
+                            case SENTRY_STATE_HERE_COMES_FIRST:
+                            case SENTRY_STATE_HERE_COMES:
+                                SENTRY_DUTY_PTR->dialogue_args.speaker_id = MONSTER_LOUDRED;
                                 str_id = 0x6DA + SENTRY_RUN_STATE_OFFSET;
                                 flags = 0x3018;
                                 break;
-                            case 12:
-                            case 13:
+                            case SENTRY_STATE_GENERATE_CHOICES:
+                            case SENTRY_STATE_GET_USER_CHOICE:
                                 SENTRY_DUTY_PTR->dialogue_args.speaker_id = SENTRY_DUTY_PTR->partner_str_id | 0x20000;
                                 str_id = 0x6DB + SENTRY_RUN_STATE_OFFSET;
                                 flags = 0x3028;
                                 break;
-                            case 16:
-                            case 17:
+                            case SENTRY_STATE_WRONG_ANSWER:
+                            case SENTRY_STATE_WRONG_ANSWER_2:
                                 SENTRY_DUTY_PTR->dialogue_args.speaker_id = SENTRY_DUTY_PTR->partner_str_id | 0x20000;
                                 str_id = 0x6EB + SENTRY_RUN_STATE_OFFSET;
                                 flags = 0x3028;
                                 break;
-                            case 18:
-                            case 19:
-                                SENTRY_DUTY_PTR->dialogue_args.speaker_id = 0x142;
+                            case SENTRY_STATE_TIME_UP:
+                            case SENTRY_STATE_TIME_UP_2:
+                                SENTRY_DUTY_PTR->dialogue_args.speaker_id = MONSTER_LOUDRED;
                                 str_id = 0x6DC + SENTRY_RUN_STATE_OFFSET;
                                 flags = 0x3028;
                                 break;
-                            case 20:
+                            case SENTRY_STATE_OUT_OF_TRIES:
                                 switch (SENTRY_DUTY_PTR->dialogue_progress)
                                 {
                                     case 0:
@@ -179,32 +180,32 @@ s32 SentryRunState(void)
                                         SENTRY_DUTY_PTR->dialogue_progress++;
                                         break;
                                     case 1:
-                                        SENTRY_DUTY_PTR->dialogue_args.speaker_id = 0x142;
+                                        SENTRY_DUTY_PTR->dialogue_args.speaker_id = MONSTER_LOUDRED;
                                         str_id = 0x6EF + SENTRY_RUN_STATE_OFFSET;
                                         SENTRY_DUTY_PTR->dialogue_progress++;
                                         break;
                                 }
                                 flags = 0x3028;
                                 break;
-                            case 23:
+                            case SENTRY_STATE_REVEAL_ANSWER:
                                 switch (SENTRY_DUTY_PTR->dialogue_progress)
                                 {
                                     case 0:
-                                        SENTRY_DUTY_PTR->dialogue_args.speaker_id = 0x142;
+                                        SENTRY_DUTY_PTR->dialogue_args.speaker_id = MONSTER_LOUDRED;
                                         SENTRY_DUTY_PTR->dialogue_args.number_vals[0] = 0x2311;
                                         str_id = 0x6F1 + SENTRY_RUN_STATE_OFFSET;
                                         SENTRY_DUTY_PTR->dialogue_progress++;
                                         break;
                                     case 1:
                                         str_id = 0x6F2 + SENTRY_RUN_STATE_OFFSET;
-                                        SENTRY_DUTY_PTR->dialogue_args.speaker_id = 0x142;
+                                        SENTRY_DUTY_PTR->dialogue_args.speaker_id = MONSTER_LOUDRED;
                                         SENTRY_DUTY_PTR->dialogue_args.number_vals[0] = 0x2C07;
                                         SENTRY_DUTY_PTR->dialogue_progress++;
                                         break;
                                 }
                                 flags = 0x3028;
                                 break;
-                            case 25:
+                            case SENTRY_STATE_CORRECT_ANSWER:
                                 switch (SENTRY_DUTY_PTR->dialogue_progress)
                                 {
                                     case 0:
@@ -213,40 +214,40 @@ s32 SentryRunState(void)
                                         SENTRY_DUTY_PTR->dialogue_progress++;
                                         break;
                                     case 1:
-                                        SENTRY_DUTY_PTR->dialogue_args.speaker_id = 0x142;
+                                        SENTRY_DUTY_PTR->dialogue_args.speaker_id = MONSTER_LOUDRED;
                                         str_id = 0x6ED + SENTRY_RUN_STATE_OFFSET;
                                         SENTRY_DUTY_PTR->dialogue_progress++;
                                         break;
                                 }
                                 flags = 0x3028;
                                 break;
-                            case 28:
+                            case SENTRY_STATE_SHOW_POINTS:
                                 if (SENTRY_DUTY_PTR->dialogue_progress == 0)
                                 {
-                                    SENTRY_DUTY_PTR->dialogue_args.speaker_id = 0x142;
+                                    SENTRY_DUTY_PTR->dialogue_args.speaker_id = MONSTER_LOUDRED;
                                     str_id = 0x6F0 + SENTRY_RUN_STATE_OFFSET;
                                     SENTRY_DUTY_PTR->dialogue_progress++;
                                 }
                                 flags = 0x3028;
                                 break;
-                            case 30:
+                            case SENTRY_STATE_ENDING_MODE1:
                                 switch (SENTRY_DUTY_PTR->dialogue_progress)
                                 {
                                     case 0:
-                                        SENTRY_DUTY_PTR->dialogue_args.speaker_id = 0x32;
+                                        SENTRY_DUTY_PTR->dialogue_args.speaker_id = MONSTER_DIGLETT;
                                         SENTRY_DUTY_PTR->dialogue_args.number_vals[0] = 0x2C09;
                                         str_id = 0x6F3 + SENTRY_RUN_STATE_OFFSET;
                                         SENTRY_DUTY_PTR->dialogue_progress++;
                                         break;
                                     case 1:
-                                        SENTRY_DUTY_PTR->dialogue_args.speaker_id = 0x142;
+                                        SENTRY_DUTY_PTR->dialogue_args.speaker_id = MONSTER_LOUDRED;
                                         str_id = 0x6F4 + SENTRY_RUN_STATE_OFFSET;
                                         SENTRY_DUTY_PTR->dialogue_progress++;
                                         break;
                                 }
                                 flags = 0x3018;
                                 break;
-                            case 32:
+                            case SENTRY_STATE_ENDING_MODE0:
                                 switch (SENTRY_DUTY_PTR->dialogue_progress)
                                 {
                                     case 0:
@@ -256,14 +257,14 @@ s32 SentryRunState(void)
                                         SENTRY_DUTY_PTR->dialogue_progress++;
                                         break;
                                     case 1:
-                                        SENTRY_DUTY_PTR->dialogue_args.speaker_id = 0x142;
+                                        SENTRY_DUTY_PTR->dialogue_args.speaker_id = MONSTER_LOUDRED;
                                         str_id = 0x6F6 + SENTRY_RUN_STATE_OFFSET;
                                         SENTRY_DUTY_PTR->dialogue_progress++;
                                         break;
                                 }
                                 flags = 0x3018;
                                 break;
-                            case 33:
+                            case SENTRY_STATE_ENDING_MODE0_2:
                                 break;
                         }
 
@@ -276,46 +277,46 @@ s32 SentryRunState(void)
                         }
                     }
 
-                    if ((SENTRY_DUTY_PTR->window_flags & 4) && SENTRY_DUTY_PTR->diglett_portrait_id == -2)
+                    if ((SENTRY_DUTY_PTR->window_flags & SENTRY_WINDOW_DIGLETT_PORTRAIT) && SENTRY_DUTY_PTR->diglett_portrait_id == -2)
                     {
                         SENTRY_DUTY_PTR->diglett_portrait_id = CreatePortraitBox(0, 3, 1);
-                        InitPortraitParamsWithMonsterId(SENTRY_DUTY_PTR->diglett_portrait_params, 0x32);
+                        InitPortraitParamsWithMonsterId(SENTRY_DUTY_PTR->diglett_portrait_params, MONSTER_DIGLETT);
                         SetPortraitLayout(SENTRY_DUTY_PTR->diglett_portrait_params, 0);
                         SetPortraitEmotion(SENTRY_DUTY_PTR->diglett_portrait_params, 0);
                         ShowPortraitInPortraitBox(SENTRY_DUTY_PTR->diglett_portrait_id, SENTRY_DUTY_PTR->diglett_portrait_params);
                     }
 
-                    if ((SENTRY_DUTY_PTR->window_flags & 8) && SENTRY_DUTY_PTR->footprint_box_id == -2)
+                    if ((SENTRY_DUTY_PTR->window_flags & SENTRY_WINDOW_FOOTPRINT_BOX) && SENTRY_DUTY_PTR->footprint_box_id == -2)
                         SENTRY_DUTY_PTR->footprint_box_id = CreateTextBox(SENTRY_FOOTPRINT_BOX_PARAMS, SentryClearWindow);
 
-                    if ((SENTRY_DUTY_PTR->window_flags & 0x10) && SENTRY_DUTY_PTR->top_names_box_id == -2)
+                    if ((SENTRY_DUTY_PTR->window_flags & SENTRY_WINDOW_TOP_NAMES_BOX) && SENTRY_DUTY_PTR->top_names_box_id == -2)
                         SENTRY_DUTY_PTR->top_names_box_id = CreateTextBox(SENTRY_TOP_NAMES_BOX_PARAMS, SentryDrawChoiceNames);
 
-                    if ((SENTRY_DUTY_PTR->window_flags & 0x20) && SENTRY_DUTY_PTR->bottom_names_box_id == -2)
+                    if ((SENTRY_DUTY_PTR->window_flags & SENTRY_WINDOW_BOTTOM_NAMES_BOX) && SENTRY_DUTY_PTR->bottom_names_box_id == -2)
                         SENTRY_DUTY_PTR->bottom_names_box_id = CreateTextBox(SENTRY_BOTTOM_NAMES_BOX_PARAMS, SentryDrawChoiceNames);
 
-                    if ((SENTRY_DUTY_PTR->window_flags & 0x40) && SENTRY_DUTY_PTR->choice_portrait_ids[0] == -2)
+                    if ((SENTRY_DUTY_PTR->window_flags & SENTRY_WINDOW_CHOICE_PORTRAIT_0) && SENTRY_DUTY_PTR->choice_portrait_ids[0] == -2)
                         SENTRY_DUTY_PTR->choice_portrait_ids[0] = CreatePortraitBox(0, 3, 0);
 
-                    if ((SENTRY_DUTY_PTR->window_flags & 0x80) && SENTRY_DUTY_PTR->choice_portrait_ids[1] == -2)
+                    if ((SENTRY_DUTY_PTR->window_flags & SENTRY_WINDOW_CHOICE_PORTRAIT_1) && SENTRY_DUTY_PTR->choice_portrait_ids[1] == -2)
                         SENTRY_DUTY_PTR->choice_portrait_ids[1] = CreatePortraitBox(0, 4, 0);
 
-                    if ((SENTRY_DUTY_PTR->window_flags & 0x100) && SENTRY_DUTY_PTR->choice_portrait_ids[2] == -2)
+                    if ((SENTRY_DUTY_PTR->window_flags & SENTRY_WINDOW_CHOICE_PORTRAIT_2) && SENTRY_DUTY_PTR->choice_portrait_ids[2] == -2)
                         SENTRY_DUTY_PTR->choice_portrait_ids[2] = CreatePortraitBox(0, 5, 0);
 
-                    if ((SENTRY_DUTY_PTR->window_flags & 0x200) && SENTRY_DUTY_PTR->choice_portrait_ids[3] == -2)
+                    if ((SENTRY_DUTY_PTR->window_flags & SENTRY_WINDOW_CHOICE_PORTRAIT_3) && SENTRY_DUTY_PTR->choice_portrait_ids[3] == -2)
                         SENTRY_DUTY_PTR->choice_portrait_ids[3] = CreatePortraitBox(0, 6, 0);
 
-                    if ((SENTRY_DUTY_PTR->window_flags & 0x40000000) && SENTRY_DUTY_PTR->debug_menu_id == -2)
+                    if ((SENTRY_DUTY_PTR->window_flags & SENTRY_WINDOW_DEBUG_MENU) && SENTRY_DUTY_PTR->debug_menu_id == -2)
                         SENTRY_DUTY_PTR->debug_menu_id = CreateSimpleMenuFromStringIds(SENTRY_DEBUG_MENU_PARAMS, 0x13, 0, SENTRY_DEBUG_MENU_ITEMS, 8);
 
-                    if ((SENTRY_DUTY_PTR->window_flags & 0x80000000) && SENTRY_DUTY_PTR->debug_option_menu_id == -2)
+                    if ((SENTRY_DUTY_PTR->window_flags & SENTRY_WINDOW_DEBUG_OPTION_MENU) && SENTRY_DUTY_PTR->debug_option_menu_id == -2)
                         SENTRY_DUTY_PTR->debug_option_menu_id = CreateSimpleMenuFromStringIds(SENTRY_DEBUG_OPTION_MENU_PARAMS, 0x13, 0, SENTRY_DEBUG_OPTION_MENU_STRING_IDS, 2);
 
                     SENTRY_DUTY_PTR->control_state = SENTRY_CTRL_POST_TRANSITION;
                     break;
                 case SENTRY_CTRL_POST_TRANSITION:
-                    if ((SENTRY_DUTY_PTR->window_flags & 2) && IsDialogueBoxActive(SENTRY_DUTY_PTR->dialogue_box_id))
+                    if ((SENTRY_DUTY_PTR->window_flags & SENTRY_WINDOW_DIALOGUE_BOX) && IsDialogueBoxActive(SENTRY_DUTY_PTR->dialogue_box_id))
                         done = FALSE;
                     else
                         done = TRUE;

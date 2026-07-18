@@ -114,11 +114,11 @@ u32 SentrySetupState(s32 mode)
 
     if (SENTRY_DUTY_PTR->mode == 2)
     {
-        SENTRY_DUTY_PTR->game_state = 4;
+        SENTRY_DUTY_PTR->game_state = SENTRY_STATE_SCORES_MODE2;
     }
     else
     {
-        SENTRY_DUTY_PTR->game_state = 6;
+        SENTRY_DUTY_PTR->game_state = SENTRY_STATE_INSTRUCTIONS;
         PlayBgmByIdVeneer(4);
     }
 
@@ -127,34 +127,34 @@ u32 SentrySetupState(s32 mode)
 
 void SentryHideDisabledWindows(void)
 {
-    if (!(SENTRY_DUTY_PTR->window_flags & 2) && SENTRY_DUTY_PTR->dialogue_box_id != -2)
+    if (!(SENTRY_DUTY_PTR->window_flags & SENTRY_WINDOW_DIALOGUE_BOX) && SENTRY_DUTY_PTR->dialogue_box_id != -2)
         sub_0202F334(SENTRY_DUTY_PTR->dialogue_box_id);
 
-    if (!(SENTRY_DUTY_PTR->window_flags & 1) && SENTRY_DUTY_PTR->scores_menu_id != -2)
+    if (!(SENTRY_DUTY_PTR->window_flags & SENTRY_WINDOW_SCORES_MENU) && SENTRY_DUTY_PTR->scores_menu_id != -2)
         sub_0202BC60(SENTRY_DUTY_PTR->scores_menu_id);
 
-    if (!(SENTRY_DUTY_PTR->window_flags & 4) && SENTRY_DUTY_PTR->diglett_portrait_id != -2)
+    if (!(SENTRY_DUTY_PTR->window_flags & SENTRY_WINDOW_DIGLETT_PORTRAIT) && SENTRY_DUTY_PTR->diglett_portrait_id != -2)
         HidePortraitBox(SENTRY_DUTY_PTR->diglett_portrait_id);
 
-    if (!(SENTRY_DUTY_PTR->window_flags & 8) && SENTRY_DUTY_PTR->footprint_box_id != -2)
+    if (!(SENTRY_DUTY_PTR->window_flags & SENTRY_WINDOW_FOOTPRINT_BOX) && SENTRY_DUTY_PTR->footprint_box_id != -2)
         sub_0202F954(SENTRY_DUTY_PTR->footprint_box_id);
 
-    if (!(SENTRY_DUTY_PTR->window_flags & 0x10) && SENTRY_DUTY_PTR->top_names_box_id != -2)
+    if (!(SENTRY_DUTY_PTR->window_flags & SENTRY_WINDOW_TOP_NAMES_BOX) && SENTRY_DUTY_PTR->top_names_box_id != -2)
         sub_0202F954(SENTRY_DUTY_PTR->top_names_box_id);
 
-    if (!(SENTRY_DUTY_PTR->window_flags & 0x20) && SENTRY_DUTY_PTR->bottom_names_box_id != -2)
+    if (!(SENTRY_DUTY_PTR->window_flags & SENTRY_WINDOW_BOTTOM_NAMES_BOX) && SENTRY_DUTY_PTR->bottom_names_box_id != -2)
         sub_0202F954(SENTRY_DUTY_PTR->bottom_names_box_id);
 
-    if (!(SENTRY_DUTY_PTR->window_flags & 0x40) && SENTRY_DUTY_PTR->choice_portrait_ids[0] != -2)
+    if (!(SENTRY_DUTY_PTR->window_flags & SENTRY_WINDOW_CHOICE_PORTRAIT_0) && SENTRY_DUTY_PTR->choice_portrait_ids[0] != -2)
         HidePortraitBox(SENTRY_DUTY_PTR->choice_portrait_ids[0]);
 
-    if (!(SENTRY_DUTY_PTR->window_flags & 0x80) && SENTRY_DUTY_PTR->choice_portrait_ids[1] != -2)
+    if (!(SENTRY_DUTY_PTR->window_flags & SENTRY_WINDOW_CHOICE_PORTRAIT_1) && SENTRY_DUTY_PTR->choice_portrait_ids[1] != -2)
         HidePortraitBox(SENTRY_DUTY_PTR->choice_portrait_ids[1]);
 
-    if (!(SENTRY_DUTY_PTR->window_flags & 0x100) && SENTRY_DUTY_PTR->choice_portrait_ids[2] != -2)
+    if (!(SENTRY_DUTY_PTR->window_flags & SENTRY_WINDOW_CHOICE_PORTRAIT_2) && SENTRY_DUTY_PTR->choice_portrait_ids[2] != -2)
         HidePortraitBox(SENTRY_DUTY_PTR->choice_portrait_ids[2]);
 
-    if (!(SENTRY_DUTY_PTR->window_flags & 0x200) && SENTRY_DUTY_PTR->choice_portrait_ids[3] != -2)
+    if (!(SENTRY_DUTY_PTR->window_flags & SENTRY_WINDOW_CHOICE_PORTRAIT_3) && SENTRY_DUTY_PTR->choice_portrait_ids[3] != -2)
         HidePortraitBox(SENTRY_DUTY_PTR->choice_portrait_ids[3]);
 }
 
@@ -162,7 +162,7 @@ u32 SentryCloseDisabledWindows(void)
 {
     s32 closed;
 
-    if (!(SENTRY_DUTY_PTR->window_flags & 2))
+    if (!(SENTRY_DUTY_PTR->window_flags & SENTRY_WINDOW_DIALOGUE_BOX))
     {
         if (SENTRY_DUTY_PTR->dialogue_box_id == -2)
             closed = 1;
@@ -179,7 +179,7 @@ u32 SentryCloseDisabledWindows(void)
             return 0;
     }
 
-    if (!(SENTRY_DUTY_PTR->window_flags & 1))
+    if (!(SENTRY_DUTY_PTR->window_flags & SENTRY_WINDOW_SCORES_MENU))
     {
         if (SENTRY_DUTY_PTR->scores_menu_id == -2)
             closed = 1;
@@ -196,7 +196,7 @@ u32 SentryCloseDisabledWindows(void)
             return 0;
     }
 
-    if (!(SENTRY_DUTY_PTR->window_flags & 4))
+    if (!(SENTRY_DUTY_PTR->window_flags & SENTRY_WINDOW_DIGLETT_PORTRAIT))
     {
         if (SENTRY_DUTY_PTR->diglett_portrait_id == -2)
             closed = 1;
@@ -213,7 +213,7 @@ u32 SentryCloseDisabledWindows(void)
             return 0;
     }
 
-    if (!(SENTRY_DUTY_PTR->window_flags & 8))
+    if (!(SENTRY_DUTY_PTR->window_flags & SENTRY_WINDOW_FOOTPRINT_BOX))
     {
         if (SENTRY_DUTY_PTR->footprint_box_id == -2)
             closed = 1;
@@ -230,7 +230,7 @@ u32 SentryCloseDisabledWindows(void)
             return 0;
     }
 
-    if (!(SENTRY_DUTY_PTR->window_flags & 0x10))
+    if (!(SENTRY_DUTY_PTR->window_flags & SENTRY_WINDOW_TOP_NAMES_BOX))
     {
         if (SENTRY_DUTY_PTR->top_names_box_id == -2)
             closed = 1;
@@ -247,7 +247,7 @@ u32 SentryCloseDisabledWindows(void)
             return 0;
     }
 
-    if (!(SENTRY_DUTY_PTR->window_flags & 0x20))
+    if (!(SENTRY_DUTY_PTR->window_flags & SENTRY_WINDOW_BOTTOM_NAMES_BOX))
     {
         if (SENTRY_DUTY_PTR->bottom_names_box_id == -2)
             closed = 1;
@@ -264,7 +264,7 @@ u32 SentryCloseDisabledWindows(void)
             return 0;
     }
 
-    if (!(SENTRY_DUTY_PTR->window_flags & 0x40))
+    if (!(SENTRY_DUTY_PTR->window_flags & SENTRY_WINDOW_CHOICE_PORTRAIT_0))
     {
         if (SENTRY_DUTY_PTR->choice_portrait_ids[0] == -2)
             closed = 1;
@@ -281,7 +281,7 @@ u32 SentryCloseDisabledWindows(void)
             return 0;
     }
 
-    if (!(SENTRY_DUTY_PTR->window_flags & 0x80))
+    if (!(SENTRY_DUTY_PTR->window_flags & SENTRY_WINDOW_CHOICE_PORTRAIT_1))
     {
         if (SENTRY_DUTY_PTR->choice_portrait_ids[1] == -2)
             closed = 1;
@@ -298,7 +298,7 @@ u32 SentryCloseDisabledWindows(void)
             return 0;
     }
 
-    if (!(SENTRY_DUTY_PTR->window_flags & 0x100))
+    if (!(SENTRY_DUTY_PTR->window_flags & SENTRY_WINDOW_CHOICE_PORTRAIT_2))
     {
         if (SENTRY_DUTY_PTR->choice_portrait_ids[2] == -2)
             closed = 1;
@@ -315,7 +315,7 @@ u32 SentryCloseDisabledWindows(void)
             return 0;
     }
 
-    if (!(SENTRY_DUTY_PTR->window_flags & 0x200))
+    if (!(SENTRY_DUTY_PTR->window_flags & SENTRY_WINDOW_CHOICE_PORTRAIT_3))
     {
         if (SENTRY_DUTY_PTR->choice_portrait_ids[3] == -2)
             closed = 1;
@@ -332,7 +332,7 @@ u32 SentryCloseDisabledWindows(void)
             return 0;
     }
 
-    if (!(SENTRY_DUTY_PTR->window_flags & 0x40000000))
+    if (!(SENTRY_DUTY_PTR->window_flags & SENTRY_WINDOW_DEBUG_MENU))
     {
         if (SENTRY_DUTY_PTR->debug_menu_id == -2)
             closed = 1;
@@ -349,7 +349,7 @@ u32 SentryCloseDisabledWindows(void)
             return 0;
     }
 
-    if (!(SENTRY_DUTY_PTR->window_flags & 0x80000000))
+    if (!(SENTRY_DUTY_PTR->window_flags & SENTRY_WINDOW_DEBUG_OPTION_MENU))
     {
         if (SENTRY_DUTY_PTR->debug_option_menu_id == -2)
             closed = 1;
